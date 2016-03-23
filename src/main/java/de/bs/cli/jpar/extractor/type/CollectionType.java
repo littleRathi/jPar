@@ -31,9 +31,10 @@ public class CollectionType extends Type {
 //		if (arguments.getDelimiter() == null || arguments.getDelimiter().isEmpty()) {
 //			throw new JParException(EXC_TYPE_MISSING_DELEMITER, option.getOptionName(), arguments.getDelimiter());
 //		}
-		if (arguments.getValues() != null && arguments.getValues().length > 0) {
-			genericType = String.class;
-		}
+//		TODO: not sure why it is here
+//		if (arguments.getValues() != null && arguments.getValues().length > 0) {
+//			genericType = String.class;
+//		}
 		
 		getCollectionObject(targetType);
 		checkGenericType(genericType);

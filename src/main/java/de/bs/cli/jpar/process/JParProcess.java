@@ -7,18 +7,18 @@ import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.config.Consts;
 import de.bs.cli.jpar.config.Defaults;
 import de.bs.cli.jpar.config.ExceptionMessages;
-import de.bs.cli.jpar.extractor.ParameterExtractor;
+import de.bs.cli.jpar.extractor.JParExtractor;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 
-public class ParameterProcess implements ExceptionMessages {
+public class JParProcess implements ExceptionMessages {
 	
-	private ParameterExtractor argExtractor;
+	private JParExtractor argExtractor;
 	private Parameters arguments;
 	
 	private Map<String, ExtractedOption> required = new HashMap<String, ExtractedOption>();
 
 	public boolean processArgs(final Object program, final String[] args) {
-		argExtractor = new ParameterExtractor(program.getClass());
+		argExtractor = new JParExtractor(program.getClass());
 		required = argExtractor.getRequiredExtractedOptions();
 		arguments = new Parameters(args);
 		return processArgsToOptions(program);
@@ -40,6 +40,8 @@ public class ParameterProcess implements ExceptionMessages {
 			if (op != null) {
 				op.processArg(program, option, argument, arguments);
 				required.remove(option);
+			} else {
+				System.out.println("Unknown Option[" + option + "]: " + argument + " (complete:" + parameter + ")");
 			}
 		}
 		return true;

@@ -2,12 +2,12 @@ package de.bs.cli.jpar;
 
 import de.bs.cli.jpar.config.Defaults;
 import de.bs.cli.jpar.config.ExceptionMessages;
-import de.bs.cli.jpar.manual.ParameterManual;
-import de.bs.cli.jpar.process.ParameterProcess;
+import de.bs.cli.jpar.manual.JParManual;
+import de.bs.cli.jpar.process.JParProcess;
 
 public class JPar implements ExceptionMessages {
 	public static void process(final Object program, final String[] args) {
-		ParameterProcess ap = new ParameterProcess();
+		JParProcess ap = new JParProcess();
 		ap.processArgs(program, args);
 	}
 	
@@ -32,7 +32,7 @@ public class JPar implements ExceptionMessages {
 	}
 	
 	public static String manual(final Class<?> programClass) {
-		ParameterManual co = new ParameterManual();
+		JParManual co = new JParManual();
 		return co.createHelpDescription(programClass);
 	}
 	

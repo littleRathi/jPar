@@ -232,13 +232,13 @@ public class ExtractedArgumentsMethodTest {
 		fail();
 	}
 	
-	@Test(expected=JParException.class)
+	@Test
 	public void testMissingOptionNameWithOption() throws NoSuchMethodException, SecurityException {
 		setTest("missingOptionName");
 		
-		ExtractedArguments.getAnnotationOnMethod(arguments, option, OPTION_NAME, method);
+		ExtractedArguments args = ExtractedArguments.getAnnotationOnMethod(arguments, option, OPTION_NAME, method);
 		
-		fail();
+		assertThat(args, notNullValue());
 	}
 	
 	
@@ -269,16 +269,16 @@ public class ExtractedArgumentsMethodTest {
 	
 	// test Arguments.values (with option mockup)
 	@Arguments(values={})
-	public static void valuesEmptyOption() {
+	public static void valuesEmptyWithOption() {
 	}
 	
-	@Test(expected=JParException.class)
-	public void testValuesEmptyOption() throws NoSuchMethodException, SecurityException {
-		setTest("valuesEmptyOption");
+	@Test
+	public void testValuesEmptyWithOption() throws NoSuchMethodException, SecurityException {
+		setTest("valuesEmptyWithOption");
 		
-		ExtractedArguments.getAnnotationOnMethod(arguments, option, OPTION_NAME, method);
+		ExtractedArguments args = ExtractedArguments.getAnnotationOnMethod(arguments, option, OPTION_NAME, method);
 	
-		fail();
+		assertThat(args, notNullValue());
 	}
 	
 	

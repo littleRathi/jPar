@@ -1,16 +1,16 @@
 package de.bs.cli.jpar.manual;
 
-import de.bs.cli.jpar.extractor.ParameterExtractor;
+import de.bs.cli.jpar.extractor.JParExtractor;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedProgram;
 
-public class ParameterManual {
+public class JParManual {
 	
-	private ParameterExtractor argExtractor;
+	private JParExtractor argExtractor;
 	private ExpressionLanguage el;
 	
 	public String createHelpDescription(final Class<?> programClass) {
-		argExtractor = new ParameterExtractor(programClass);
+		argExtractor = new JParExtractor(programClass);
 		el = new ExpressionLanguage(argExtractor);
 		return buildManual(programClass);
 	}

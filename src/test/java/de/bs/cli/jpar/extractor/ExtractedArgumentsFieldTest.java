@@ -72,13 +72,13 @@ public class ExtractedArgumentsFieldTest {
 		fail();
 	}
 	
-	@Test(expected=JParException.class)
+	@Test
 	public void testOnlyArgumentsWithOption() throws NoSuchFieldException, SecurityException {
 		setTest("onlyArguments");
 		
-		ExtractedArguments.getAnnotationOnField(arguments, option, OPTION_NAME, field);
+		ExtractedArguments args = ExtractedArguments.getAnnotationOnField(arguments, option, OPTION_NAME, field);
 		
-		fail();
+		assertThat(args, notNullValue());
 	}
 	
 	
@@ -118,13 +118,13 @@ public class ExtractedArgumentsFieldTest {
 		fail();
 	}
 	
-	@Test(expected=JParException.class)
+	@Test
 	public void testOnlyDelimiterWithOption() throws NoSuchFieldException, SecurityException {
 		setTest("onlyDelimiter");
 
-		ExtractedArguments.getAnnotationOnField(arguments, option, OPTION_NAME, field);
+		ExtractedArguments args = ExtractedArguments.getAnnotationOnField(arguments, option, OPTION_NAME, field);
 		
-		fail();
+		assertThat(args, notNullValue());
 	}
 	
 	

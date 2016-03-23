@@ -6,7 +6,7 @@ import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.config.ExceptionMessages;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
-import de.bs.cli.jpar.extractor.HelpParameter;
+import de.bs.cli.jpar.extractor.HelpOption;
 import de.bs.cli.jpar.process.Parameters;
 
 public abstract class Type implements ExceptionMessages {
@@ -38,7 +38,7 @@ public abstract class Type implements ExceptionMessages {
 	}
 	
 	public static Type getTypeProcessor(final Class<?> type, final ExtractedOption option, final ExtractedArguments arguments) {
-		if (type == Void.class && option.getClass() == HelpParameter.class) {
+		if (type == Void.class && option.getClass() == HelpOption.class) {
 			return new VoidType(option, arguments);
 		}
 		if ((type == void.class || type == Void.class)) {

@@ -17,7 +17,7 @@ import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.CliProgram;
 import de.bs.cli.jpar.Arguments;
 
-public class ParameterExtractor implements ExceptionMessages {
+public class JParExtractor implements ExceptionMessages {
 	private ExtractedProgram program;
 	
 	private List<ExtractedOption> options = new LinkedList<ExtractedOption>();
@@ -32,15 +32,15 @@ public class ParameterExtractor implements ExceptionMessages {
 		return new ArrayList<ExtractedOption>(options);
 	}
 	
-	public ExtractedOption getExtractedOptionForForOptionName(final String name) {
-		return argToExtractedOptions.get(name);
+	public ExtractedOption getExtractedOptionForForOptionName(final String optionName) {
+		return argToExtractedOptions.get(optionName);
 	}
 	
 	public Map<String, ExtractedOption> getRequiredExtractedOptions() {
 		return new HashMap<String, ExtractedOption>(requiredExtractedOptions);
 	}
 	
-	public ParameterExtractor(final Class<?> programClass) {
+	public JParExtractor(final Class<?> programClass) {
 		extractDataFromProgram(programClass);
 		setDefaults();
 		
@@ -66,7 +66,7 @@ public class ParameterExtractor implements ExceptionMessages {
 	}
 	
 	private void setDefaults() {
-		addExtractedParameter(new HelpParameter());
+		addExtractedParameter(new HelpOption());
 	}
 	
 	private void extractArgumentsFromFields(final Class<?> programClass, final Map<String, ExtractedArguments> extractedArguments) {
@@ -150,16 +150,16 @@ public class ParameterExtractor implements ExceptionMessages {
 		}
 	}
 	
-	private void addExtractedParameter(final ExtractedOption optin) {
-		if (!argToExtractedOptions.containsKey(optin.getOptionName())) {
-			options.add(optin);
-			argToExtractedOptions.put(optin.getOptionName(), optin);
+	private void addExtractedParameter(final ExtractedOption option) {
+		if (!argToExtractedOptions.containsKey(option.getOptionName())) {
+			options.add(option);
+			argToExtractedOptions.put(option.getOptionName(), option);
 			
-			if (optin.isRequired()) {
-				requiredExtractedOptions.put(optin.getOptionName(), optin);
+			if (option.isRequired()) {
+				requiredExtractedOptions.put(option.getOptionName(), option);
 			}
 		} else {
-			throw new JParException(EXC_EXTRACTOR_DOUBLE_OPTION, optin.getOptionName());
+			throw new JParException(EXC_EXTRACTOR_DOUBLE_OPTION, option.getOptionName());
 		}
 		
 	}

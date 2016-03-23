@@ -7,8 +7,8 @@ import de.bs.cli.jpar.Option;
 import de.bs.cli.jpar.config.Consts;
 import de.bs.cli.jpar.process.Parameters;
 
-public class HelpParameter extends ExtractedOption {
-	public HelpParameter() {
+public class HelpOption extends ExtractedOption {
+	public HelpOption() {
 		super(new Option() {
 			@Override
 			public Class<? extends Annotation> annotationType() {

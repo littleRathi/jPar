@@ -8,16 +8,16 @@ import java.util.regex.Pattern;
 import de.bs.cli.jpar.config.Consts;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedProgram;
-import de.bs.cli.jpar.extractor.ParameterExtractor;
+import de.bs.cli.jpar.extractor.JParExtractor;
 
 // VERY simple implementation! Very Simple Implementation of EL Like Language =>  VSIELLL
 // change to LaTeX style, for this could be the better choice
-public class ExpressionLanguage {
+class ExpressionLanguage {
 	private static final String PATTERN_SIMPLE_EXPRESSION_LANGUATE = "\\$\\{([a-zA-Z\\*][a-zA-Z0-9\\.\\*:]*)\\}";
 
 	private static Pattern pattern = Pattern.compile(PATTERN_SIMPLE_EXPRESSION_LANGUATE);
 
-	private ParameterExtractor argExtractor;
+	private JParExtractor argExtractor;
 	private Map<String, String> elDefaults = new HashMap<String, String>();
 	
 	
@@ -48,7 +48,7 @@ public class ExpressionLanguage {
 		}
 	}
 	
-	public ExpressionLanguage(final ParameterExtractor argExtractor) {
+	public ExpressionLanguage(final JParExtractor argExtractor) {
 		this.argExtractor = argExtractor;
 		createElDefaults();
 	}

@@ -22,15 +22,15 @@ import de.bs.cli.jpar.extractor.type.VoidType;
 import de.bs.cli.jpar.process.Parameters;
 
 
-public class HelpParameterTest {
-	private HelpParameter testee;
+public class HelpOptionTest {
+	private HelpOption testee;
 	
 	private static final String OPTION_NAME = asOptionName(Consts.NAME_HELP);
 	private static final String ARGUMENT_ILLEGAL_STRING = "abc";
 	
 	@Before
 	public void setupTest() {
-		testee = new HelpParameter();
+		testee = new HelpOption();
 	}
 	
 	@Test

@@ -77,9 +77,6 @@ public class ExtractedArguments implements ExceptionMessages {
 	}
 	
 	private static String[][] extractValuesFromArgumentValues(final Arguments arguments, final String optionName) {
-		if (arguments.values() == null || arguments.values().length == 0) {
-			throw new JParException(EXC_EXTRACTOR_NEED_VALUES, optionName);
-		}
 		if (arguments.name() != null && !arguments.name().isEmpty()) {
 			throw new JParException(EXC_EXTRACTOR_VALUES_NO_NAME, optionName);
 		}

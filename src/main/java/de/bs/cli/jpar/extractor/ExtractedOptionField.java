@@ -7,7 +7,7 @@ import de.bs.cli.jpar.Option;
 import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.process.Parameters;
 
-public class ExtractedOptionField extends ExtractedOption {
+class ExtractedOptionField extends ExtractedOption {
 	
 	private Field field;
 	

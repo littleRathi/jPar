@@ -7,7 +7,7 @@ import de.bs.cli.jpar.Option;
 import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.process.Parameters;
 
-public class ExtractedOptionMethod extends ExtractedOption {
+class ExtractedOptionMethod extends ExtractedOption {
 
 	private Method method;
 	
