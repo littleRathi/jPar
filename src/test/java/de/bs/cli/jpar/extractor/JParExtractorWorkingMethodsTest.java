@@ -93,6 +93,5 @@ public class JParExtractorWorkingMethodsTest {
 		assertThat(result, notNullValue());
 		assertThat(result.getProgramName(), equalTo(WorkingMethodsExample.PROG_NAME));
 		assertThat(result.getDescription(), equalTo(WorkingMethodsExample.PROG_DESC));
-		assertThat(result.getSignature(), equalTo(WorkingMethodsExample.PROG_SIG));
 	}
 }

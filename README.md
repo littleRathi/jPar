@@ -13,6 +13,12 @@ Relevant are only the package de.bs.cli.jpar:
 
 ## Todo
 - Tests
+- Überarbietung der ExpressionLanguage (not good name for it)
+  * Latex variant:
+  	- Parameters for commands, "explain" replacement from "latex" commands to text
+  		- needs some description objects
+  	- default behavior for not found commands -> empty replacement? (configurable)
+  	- 
 - ObjectType; create simple instances from targetType, with String as a parameter: example would be new File(arg)
 - extends de.bs.cli.jpar.process.Parameters with methods:
  - public interface (for lib user)

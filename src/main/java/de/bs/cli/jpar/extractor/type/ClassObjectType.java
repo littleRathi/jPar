@@ -1,6 +1,7 @@
 package de.bs.cli.jpar.extractor.type;
 
 import de.bs.cli.jpar.JParException;
+import de.bs.cli.jpar.config.Defaults;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.process.Parameters;
@@ -15,13 +16,21 @@ public class ClassObjectType extends Type {
 	}
 	
 	@Override
+	public String getShortDescription() {
+		return getOption().getOptionName() + Defaults.getOptionDelimiter() + "<" + getTargetType().getName() + ">";
+	}
+	
+	@Override
 	public void getManualDescription(final StringBuilder descriptionBuilder) {
 		String extendVariant = getTargetType().isInterface() ? "implements" : "extends";
 		String type = getTargetType().isInterface() ? "Interface" : "Class";
 		
-		descriptionBuilder.append(getOption().getOptionName()).append("<class> where given class has to ").append(extendVariant).append(" ")
+		descriptionBuilder.append(getOption().getOptionName()).append(Defaults.getOptionDelimiter())
+			.append("<class> where given class has to ").append(extendVariant).append(" ")
 			.append(getTargetType().getName()).append(" ").append(type)
-			.append(" and need a constructor without parameters (Default constructor).");
+			.append(" and need a constructor without parameters (Default constructor)");
+		
+		createValuesDescription(descriptionBuilder, false);
 	}
 	
 	@Override

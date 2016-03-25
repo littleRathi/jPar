@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.config.Consts;
+import de.bs.cli.jpar.config.Defaults;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.process.Parameters;
@@ -31,7 +32,8 @@ public abstract class CollectionTypeTestBase<T extends Collection> {
 	private ExtractedOption option;
 	private ExtractedArguments arguments;
 	
-	private static final String EXTRACTED_ARGUMENT_ARG_NAME = "-test:";
+	private static final String EXTRACTED_ARGUMENT_ARG_NAME 
+		= Defaults.getOptionPrefix() + "test";
 	
 	private static final String ARGUMENT_2A = "a00;a02";
 	private static final String ARGUMENT_AB = "a00;b00";
@@ -204,7 +206,17 @@ public abstract class CollectionTypeTestBase<T extends Collection> {
 	
 	// testcases:CollectionType
 	@Test
-	public void testUsageDescription() {
+	public void testGetShortDescription() {
+		String result = testee.getShortDescription();
+		
+		String simpleName = SOURCE_TYPE.getSimpleName();
+		String expected = "-test:<" + simpleName + ">[" 
+				+ Defaults.getListDelimiter() + "<" + simpleName + ">]";
+		assertThat(result, equalTo(expected));
+	}
+	
+	@Test
+	public void testGetManualDescription() {
 		StringBuilder sb = new StringBuilder();
 		testee.getManualDescription(sb);
 		String description = sb.toString();

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.bs.cli.jpar.JParException;
+import de.bs.cli.jpar.config.Defaults;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.process.Parameters;
@@ -27,26 +28,21 @@ public class CollectionType extends Type {
 		if (arguments == null) {
 			throw new JParException(EXC_TYPE_MISSING_VALUES, getOption().getOptionName());
 		}
-//		TODO: not needed anymore if not set, fall back to Defaults.getListDelimiter()
-//		if (arguments.getDelimiter() == null || arguments.getDelimiter().isEmpty()) {
-//			throw new JParException(EXC_TYPE_MISSING_DELEMITER, option.getOptionName(), arguments.getDelimiter());
-//		}
-//		TODO: not sure why it is here
-//		if (arguments.getValues() != null && arguments.getValues().length > 0) {
-//			genericType = String.class;
-//		}
 		
 		getCollectionObject(targetType);
 		checkGenericType(genericType);
 	}
+	
+	@Override
+	public String getShortDescription() {
+		String listType = getOption().getSourceType().getSimpleName();
+		return getOption().getOptionName() + Defaults.getOptionDelimiter() + "<" + listType + ">[" + getArguments().getDelimiter() + "<" + listType + ">]";
+	}
 
 	@Override
 	public void getManualDescription(final StringBuilder descriptionBuilder) {
-		ExtractedOption option = getOption();
-		Class<?> listType = option.getSourceType();
-		descriptionBuilder.append(getOption().getOptionName()).append("<").append(listType.getSimpleName()).append(">[").append(getArguments().getDelimiter()).append("<").append(listType.getSimpleName()).append(">]");
-		
-		createWithSpecific(option, descriptionBuilder, true);
+		descriptionBuilder.append(getShortDescription());
+		createValuesDescription(descriptionBuilder, true);
 	}
 
 	@Override
@@ -162,30 +158,5 @@ public class CollectionType extends Type {
 			}
 		}
 		throw new JParException(EXC_TYPE_UNKNOWN_COLLECTION_TYPE, collectionType);
-	}
-
-	private void createWithSpecific(final ExtractedOption option, final StringBuilder result, final boolean multiple) {
-		String[][] values = getArguments().getValues();
-		if (values != null) {
-			result.append(". Following values can be used: ");
-			for (int i = 0; i < values.length; i++) {
-				String[] subValues = values[i];
-				
-				if (subValues.length > 1) {
-					if (multiple) {
-						result.append("one or more of ");
-					} else {
-						result.append("one of ");
-					}
-					result.append(subValues[0]);
-					for (int j = 0; j < subValues.length; j++) {
-						result.append(", ").append(subValues[j]);
-					}
-					result.append(" ");
-				} else {
-					result.append("single option " + subValues[0]);
-				}
-			}
-		}
 	}
 }

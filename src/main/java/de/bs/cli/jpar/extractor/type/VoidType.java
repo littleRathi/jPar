@@ -18,10 +18,17 @@ public class VoidType extends Type {
 			throw new JParException(EXC_TYPE_ARGUMENTS_NOT_ALLOWED, option.getOptionName());
 		}
 	}
+	
+	@Override
+	public String getShortDescription() {
+		return getOption().getOptionName();
+	}
 
 	@Override
 	public void getManualDescription(StringBuilder descriptionBuilder) {
-		descriptionBuilder.append(getOption().getOptionName()).append(" to show this help information.");
+		descriptionBuilder.append(getShortDescription()).append(" to show this help information.");
+		
+		createValuesDescription(descriptionBuilder, false);
 	}
 
 	@Override

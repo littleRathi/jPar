@@ -1,6 +1,7 @@
 package de.bs.cli.jpar.extractor.type;
 
 import de.bs.cli.jpar.JParException;
+import de.bs.cli.jpar.config.Defaults;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.process.Parameters;
@@ -15,8 +16,15 @@ public class StringType extends Type {
 	}
 	
 	@Override
+	public String getShortDescription() {
+		return getOption().getOptionName() + Defaults.getOptionDelimiter() + "<STRING>";
+	}
+	
+	@Override
 	public void getManualDescription(final StringBuilder descriptionBuilder) {
-		descriptionBuilder.append(getOption().getOptionName()).append("<STRING>");
+		descriptionBuilder.append(getShortDescription());
+		
+		createValuesDescription(descriptionBuilder, false);
 	}
 	
 	@Override

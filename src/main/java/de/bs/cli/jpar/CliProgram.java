@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 public @interface CliProgram {
 	String name();
 	String description();
-	String signature() default "";
+	String[] authors() default {};
+	String copyright() default "";
 }

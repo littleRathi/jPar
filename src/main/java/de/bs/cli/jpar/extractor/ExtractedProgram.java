@@ -34,7 +34,10 @@ public class ExtractedProgram implements ExceptionMessages {
 	public String getDescription() {
 		return program.description();
 	}
-	public String getSignature() {
-		return program.signature();
+	public String[] getAuthors() {
+		return program.authors();
+	}
+	public String getCopyright() {
+		return program.copyright();
 	}
 }

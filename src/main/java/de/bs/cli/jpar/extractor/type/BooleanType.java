@@ -1,6 +1,7 @@
 package de.bs.cli.jpar.extractor.type;
 
 import de.bs.cli.jpar.JParException;
+import de.bs.cli.jpar.config.Defaults;
 import de.bs.cli.jpar.config.ExceptionMessages;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
@@ -22,11 +23,16 @@ public class BooleanType extends Type implements ExceptionMessages {
 	}
 	
 	@Override
+	public String getShortDescription() {
+		return getOption().getOptionName() + Defaults.getOptionDelimiter() + "[" + TRUE + "|" + FALSE + "]";
+	}
+	
+	@Override
 	public void getManualDescription(final StringBuilder descriptionBuilder) {
-		descriptionBuilder.append(getOption().getOptionName()).append(":+ or ")
-			.append(getOption()).append(" to enable or also")
-			.append(getOption().getOptionName())
-			.append(":- to disable.");
+		descriptionBuilder.append(getOption().getOptionName()).append(Defaults.getOptionDelimiter()).append("+ or ")
+			.append(getOption().getOptionName()).append(" to enable or ")
+			.append(getOption().getOptionName()).append(Defaults.getOptionDelimiter())
+			.append("- to disable.");
 	}
 	
 	@Override

@@ -5,9 +5,12 @@ import static org.junit.Assert.assertThat;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,12 +19,18 @@ import org.junit.Test;
 import de.bs.cli.jpar.CliProgram;
 import de.bs.cli.jpar.JParException;
 
+// TODO: test for new authors and copyright
 public class ExtractedProgramTest {
 	private ExtractedProgram testee;
 	
 	private static final String PROG_NAME = "testme";
 	private static final String PROG_DESC = "some description for the program itself.";
-	private static final String PROG_SIGNATURE = "copyright by someone who is unknown.";
+	
+	private static final String PROG_AUTHOR_A = "abc";
+	private static final String PROG_AUTHOR_B = "def";
+	private static final String[] PROG_AUTHORS = new String[]{PROG_AUTHOR_A, PROG_AUTHOR_B};
+	
+	private static final String PROG_COPY_NO_RIGHT = "This program has some kind of copyright";
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Before
@@ -30,7 +39,8 @@ public class ExtractedProgramTest {
 		when(programAnnotation.annotationType()).thenReturn((Class)CliProgram.class);
 		when(programAnnotation.name()).thenReturn(PROG_NAME);
 		when(programAnnotation.description()).thenReturn(PROG_DESC);
-		when(programAnnotation.signature()).thenReturn(PROG_SIGNATURE);
+		when(programAnnotation.authors()).thenReturn(PROG_AUTHORS);
+		when(programAnnotation.copyright()).thenReturn(PROG_COPY_NO_RIGHT);
 		testee = new ExtractedProgram(getClass(), programAnnotation);
 	}
 	
@@ -88,10 +98,16 @@ public class ExtractedProgramTest {
 	}
 	
 	@Test
-	public void testGetSignature() {
-		String sig = testee.getSignature();
+	public void testGetAuthors() {
+		String[] result = testee.getAuthors();
 		
-		assertThat(sig, notNullValue());
-		assertThat(sig, equalTo(PROG_SIGNATURE));
+		assertThat(Arrays.asList(result), hasItems(PROG_AUTHOR_A, PROG_AUTHOR_B));
+	}
+	
+	@Test
+	public void testGetCopyright() {
+		String result = testee.getCopyright();
+		
+		assertThat(result, equalTo(PROG_COPY_NO_RIGHT));
 	}
 }

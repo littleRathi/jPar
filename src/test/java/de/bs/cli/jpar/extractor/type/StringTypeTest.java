@@ -1,13 +1,17 @@
 package de.bs.cli.jpar.extractor.type;
 
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+
 import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import static de.bs.cli.jpar.config.Defaults.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +29,9 @@ public class StringTypeTest {
 	private ExtractedOption option;
 	private ExtractedArguments arguments;
 
-	private static final String EXTRACTED_ARGUMENT_ARG_NAME = "-test:";
+	private static final String EXTRACTED_ARGUMENT_ARG_NAME = getOptionPrefix() + "test";
+	private static final String SHORT_DESCIPTION = EXTRACTED_ARGUMENT_ARG_NAME + getOptionDelimiter() + "<STRING>";
+	
 	private static final String VALID_VALUE_A00 = "a00";
 	private static final String VALID_VALUE_A01 = "a01";
 	private static final String WRONG_VALUE = "abc";
@@ -110,7 +116,14 @@ public class StringTypeTest {
 	
 	// testcases:StringType
 	@Test
-	public void testUsageDescription() {
+	public void testGetShortDescription() {
+		String result = testee.getShortDescription();
+		
+		assertThat(result, equalTo(SHORT_DESCIPTION));
+	}
+	
+	@Test
+	public void testGetManualDescription() {
 		StringBuilder sb = new StringBuilder();
 		testee.getManualDescription(sb);
 		String description = sb.toString();

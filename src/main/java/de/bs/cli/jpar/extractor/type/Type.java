@@ -58,11 +58,50 @@ public abstract class Type implements ExceptionMessages {
 		}
 		throw new JParException(EXC_TYPE_UNSUPPORTED, type);
 	}
-	public abstract void getManualDescription(final StringBuilder descriptionBuilder);
 	public abstract Object processArgs(final String option, final String argument, final Parameters args);
 
-
+	public abstract String getShortDescription();
+	public abstract void getManualDescription(final StringBuilder descriptionBuilder);
 	protected void manualDescriptionForValidValues(final StringBuilder descriptionBuilder) {
 		
+	}
+
+	protected void createValuesDescription(final StringBuilder result, final boolean multiple) {
+		if (getArguments() != null) {
+			String[][] values = getArguments().getValues();
+			
+			if (values != null && values.length > 0) {
+				if (multiple) {
+					if (values.length == 1) {
+						result.append(" - following values are valid ");
+					} else {
+						result.append(" - following values from one the groups are valid ");
+					}
+				} else {
+					result.append("- one of the following ");
+				}
+				for (int i = 0; i < values.length; i++) {
+					String[] subValues = values[i];
+					
+					createValuesDescriptionForSublist(subValues, result, multiple);
+					if (i < values.length - 1) {
+						result.append("or ");
+					}
+				}
+			}
+		}
+	}
+	
+	private void createValuesDescriptionForSublist(final String[] subValues, final StringBuilder result, final boolean multiple) {
+		result.append("(");
+		if (subValues.length > 1) {
+			result.append(subValues[0]);
+			for (int j = 0; j < subValues.length; j++) {
+				result.append(", ").append(subValues[j]);
+			}
+		} else if (subValues.length == 1) {
+			result.append("single option " + subValues[0]);
+		}
+		result.append(") ");
 	}
 }

@@ -93,6 +93,5 @@ public class JParExtractorWorkingFieldsTest {
 		assertThat(result, notNullValue());
 		assertThat(result.getProgramName(), equalTo(WorkingFieldsExample.PROG_NAME));
 		assertThat(result.getDescription(), equalTo(WorkingFieldsExample.PROG_DESC));
-		assertThat(result.getSignature(), equalTo(""));
 	}
 }

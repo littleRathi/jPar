@@ -1,13 +1,17 @@
 package de.bs.cli.jpar.extractor.type;
 
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+
 import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import static de.bs.cli.jpar.config.Defaults.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,7 +36,8 @@ public class ClassObjectTypeTest {
 	private ExtractedOption option;
 	private ExtractedArguments arguments;
 
-	private static final String EXTRACTED_ARGUMENT_ARG_NAME = "-test:";
+	private static final String EXTRACTED_ARGUMENT_ARG_NAME = getOptionPrefix() + "test";
+	private static final String SHORT_DESCRIPTION = EXTRACTED_ARGUMENT_ARG_NAME + getOptionDelimiter() + "<" + TARGET_TYPE.getName() + ">";
 	
 	@SuppressWarnings("rawtypes")
 	private static final LinkedList VALID_LINKED_LIST = new LinkedList();
@@ -129,7 +134,14 @@ public class ClassObjectTypeTest {
 	
 	// testcases:ClassObjectType
 	@Test
-	public void testUsageDescription() {
+	public void testGetShortDescription() {
+		String result = testee.getShortDescription();
+		
+		assertThat(result, equalTo(SHORT_DESCRIPTION));
+	}
+	
+	@Test
+	public void testGetManualDescription() {
 		StringBuilder sb = new StringBuilder();
 		testee.getManualDescription(sb);
 		String description = sb.toString();
