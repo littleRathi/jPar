@@ -31,7 +31,7 @@ class ExtractedOptionField extends ExtractedOption {
 			value = getType().processArgs(option, argument, args);
 			field.set(program, value);
 		} catch (Exception e) {
-			throw new JParException(e, EXC_EXTRACTOR_COULD_NOT_SET, value, option);
+			throw new JParException(e, EXC_EXTRACTOR_COULD_NOT_SET, value, argument, option);
 		}
 	}
 }

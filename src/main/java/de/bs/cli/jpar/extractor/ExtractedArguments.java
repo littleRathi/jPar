@@ -23,12 +23,17 @@ public class ExtractedArguments implements ExceptionMessages {
 		this.values = values;
 		this.arguments = arguments;
 		
+		boolean hasValues = false;
 		for (String[] subValues: values) {
 			Set<String> subSet = new HashSet<String>();
 			for (String value: subValues) {
 				subSet.add(value);
+				hasValues = true;
 			}
 			valuesSet.add(subSet);
+		}
+		if (!hasValues) {
+			valuesSet = null;
 		}
 	}
 	public String getDelimiter() {
@@ -51,6 +56,9 @@ public class ExtractedArguments implements ExceptionMessages {
 	public boolean validValues(final String[] values) {
 		if (values == null || values.length == 0) {
 			return false;
+		}
+		if (valuesSet == null) {
+			return true;
 		}
 		boolean valid = false;
 		

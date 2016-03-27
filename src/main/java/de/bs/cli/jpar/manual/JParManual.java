@@ -11,6 +11,7 @@ public class JParManual {
 	private static final String OPTIONAL_CLOSE = "]";
 	private static final String OPTIONAL_OPEN = "[";
 	private static final String SPACE = " ";
+	
 	public static final String PART_PROG_NAME = "NAME";
 	public static final String PART_SYNOPSIS = "SYNOPSIS";
 	public static final String PART_DESCRIPTION = "DESCRIPTION";
@@ -23,7 +24,7 @@ public class JParManual {
 	public static final String INDENT = "    ";
 	
 	public static final String USAGE = " Usage: ";
-	public static final String REQUIRED_OPTION = "(required option) ";
+	public static final String REQUIRED_OPTION = "(required option)";
 	
 	private JParExtractor argExtractor;
 	private ExpressionLanguage el;
@@ -41,9 +42,8 @@ public class JParManual {
 		buildManualForSynopsisPart(sbInfo);
 		buildManualForDescription(sbInfo);
 		buildManualForOptionsPart(sbInfo, programClass);
-//		buildManualForSignature(sbInfo);
-		// Authors TODO: authors part
-		// Copyright TODO: copyright part
+		buildManualForAuthorsPart(sbInfo);
+		buildManualForCopyrightPart(sbInfo);
 		
 		return sbInfo.toString();
 	}
@@ -56,8 +56,6 @@ public class JParManual {
 	}
 	
 	private void buildManualForSynopsisPart(final StringBuilder sbInfo) {
-//		ExtractedProgram program = argExtractor.getProgram();
-		
 		StringBuilder synCmdLine = new StringBuilder("<progname>").append(SPACE);
 		
 		Map<String, ExtractedOption> requiredOptions = argExtractor.getRequiredExtractedOptions();
@@ -92,14 +90,13 @@ public class JParManual {
 	}
 	
 	private void buildManualForOptionsPart(final StringBuilder sbInfo, final Class<?> programClass) {
-
-		sbInfo.append("\n").append(PART_OPTIONS).append("\n");
+		sbInfo.append(PART_OPTIONS).append(NEXT_LINE);
 		
 		for (ExtractedOption option: argExtractor.getExtractedOptions()) {
-			StringBuilder sbOption = new StringBuilder(option.getOptionName()).append(": ");
+			StringBuilder sbOption = new StringBuilder(option.getOptionName()).append(SPACE);
 			
 			if (option.isRequired()) {
-				sbOption.append(REQUIRED_OPTION);
+				sbOption.append(REQUIRED_OPTION).append(SPACE);
 			}
 			
 			sbOption.append(option.getManualDescription()).append(USAGE);
@@ -109,6 +106,33 @@ public class JParManual {
 			
 			indentBlockWithWidth(optionText, 80, sbInfo, INDENT);
 			sbInfo.append(NEXT_PART);
+		}
+	}
+	
+	private void buildManualForAuthorsPart(final StringBuilder sbInfo) {
+		String[] authors = argExtractor.getProgram().getAuthors();
+		
+		if (authors != null && authors.length > 0) {
+			sbInfo.append(PART_AUTHORS).append(NEXT_LINE);
+			
+			StringBuilder authorList = new StringBuilder("Written by ").append(authors[0]);
+			for (int i = 1; i < authors.length; i++) {
+				if (i == authors.length - 1) {
+					authorList.append(" and ").append(authors[i]);
+				} else {
+					authorList.append(", ").append(authors[i]);
+				}
+			}
+			
+			indentBlockWithWidth(authorList.toString(), 80, sbInfo, INDENT);
+		}
+	}
+	
+	private void buildManualForCopyrightPart(final StringBuilder sbInfo) {
+		String copyright = argExtractor.getProgram().getCopyright();
+		
+		if (copyright != null && copyright.length() > 1) {
+			indentBlockWithWidth(copyright, 80, sbInfo, INDENT);
 		}
 	}
 	
@@ -138,31 +162,4 @@ public class JParManual {
 			i = to;
 		}
 	}
-	
-//	private static void withBlockWidthIntoStringBuilder(final String text, final int blockSize, final StringBuilder sb, final String prefix) {
-//		boolean withPrefix = prefix != null && !prefix.isEmpty();
-//		int length = text.length();
-//		int dynBlockSize = blockSize;
-//		int to = blockSize;
-//		
-//		for (int i = 0; i < length;) {
-//			if (i + dynBlockSize >= length) {
-//				to = length;
-//			} else {
-//				to = i + dynBlockSize;
-//				while (text.charAt(to) != ' ' && to > (i + (dynBlockSize / 2))) {
-//					to--;
-//				}
-//				to++; // so that the space is the last char on the line before
-//			}
-//			if (withPrefix && i == 0) {
-//				dynBlockSize = dynBlockSize - prefix.length();
-//			}
-//			if (withPrefix && i > 0) {
-//				sb.append(prefix);
-//			}
-//			sb.append(text.substring(i, to)).append("\n");
-//			i = to;
-//		}
-//	}
 }

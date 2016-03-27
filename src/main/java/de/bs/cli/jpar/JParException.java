@@ -12,10 +12,10 @@ public class JParException extends RuntimeException {
 	}
 	
 	public JParException(final Throwable exception, final String msg) {
-		super(msg, exception);
+		super(msg + " > " + exception.getMessage(), exception);
 	}
 	
 	public JParException(final Throwable exception, final String msg, final Object... formatValues) {
-		super(String.format(msg, formatValues), exception);
+		super(String.format(msg + " > " +  exception.getMessage(), formatValues), exception);
 	}
 }

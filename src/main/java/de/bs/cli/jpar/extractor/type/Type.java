@@ -62,9 +62,6 @@ public abstract class Type implements ExceptionMessages {
 
 	public abstract String getShortDescription();
 	public abstract void getManualDescription(final StringBuilder descriptionBuilder);
-	protected void manualDescriptionForValidValues(final StringBuilder descriptionBuilder) {
-		
-	}
 
 	protected void createValuesDescription(final StringBuilder result, final boolean multiple) {
 		if (getArguments() != null) {
@@ -75,7 +72,7 @@ public abstract class Type implements ExceptionMessages {
 					if (values.length == 1) {
 						result.append(" - following values are valid ");
 					} else {
-						result.append(" - following values from one the groups are valid ");
+						result.append(" - following values from one of the groups are valid ");
 					}
 				} else {
 					result.append("- one of the following ");

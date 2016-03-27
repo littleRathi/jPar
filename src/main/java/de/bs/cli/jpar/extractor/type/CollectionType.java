@@ -90,6 +90,7 @@ public class CollectionType extends Type {
 	}
 	
 	// TODO move to Type?
+	// Optimization when something happens like new Integer("abc");
 	private static Object castTo(final Class<?> newType, final String value) {
 		if (String.class.equals(newType)) {
 			return value;

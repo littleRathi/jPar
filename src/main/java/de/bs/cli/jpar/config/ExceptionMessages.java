@@ -3,6 +3,7 @@ package de.bs.cli.jpar.config;
 import de.bs.cli.jpar.Arguments;
 import de.bs.cli.jpar.CliProgram;
 import de.bs.cli.jpar.Option;
+import de.bs.cli.jpar.process.Parameters;
 
 public interface ExceptionMessages {
 	String EXCEPTION_MISSING_CALLABLE_PROGRAM = "No Class found in the stacktrace that has the @" + CliProgram.class + " annotation.";
@@ -36,7 +37,7 @@ public interface ExceptionMessages {
 	String EXC_EXTRACTOR_ARGUMENTS_NAME_NOT_ALLOWED = "The %s '%s' with property name() from '@" + Arguments.class + "' is not allowed, when '@" + Option.class + "' is present on the same element.";
 //	String EXC_EXTRACTOR_ARGUMENT_VALUES_MISSING_ARGUMENT = "No field or method found that have the '@" + Option.class + "' annotation with the name argument -%s'.";
 	String EXC_EXTRACTOR_NAME_WRONG_PATTERN = "The value of property name() from '@" + Option.class + "' is '%s', that does not follow the convetion '%s'.";
-	String EXC_EXTRACTOR_COULD_NOT_SET = "Value '%s' could not be set for parameter '%s'.";
+	String EXC_EXTRACTOR_COULD_NOT_SET = "Value '%s' (passed: '%s') could not be set for option '%s'.";
 	String EXC_EXTRACTOR_TO_MANY_ARGUMENTS = "The method '%s' contains to many arguments, allowed is only one.";
 	String EXC_EXTRACTOR_NO_ARGUMENTS = "The method '%s' contains no arguments, but one is needed.";
 	String EXC_EXTRACTOR_NEED_VALUES = "The property values() from the '@" + Arguments.class + "' must be a array with minimum 1 value fro argument '%s'.";
@@ -57,4 +58,5 @@ public interface ExceptionMessages {
 	
 	String EXC_PROCESS_MISSING_REQUIRED_ARGUMENTS = "Missing following required arguments: '%s'.";
 	String EXC_PROCESS_NO_ARGUMENT_ALLOWED = "For option '%s' are no arguments allowed.";
+	String EXC_PROCESS_MISSING_ARGS = "The value null is no legal parameter for '" + Parameters.class + "' class constructor.";
 }

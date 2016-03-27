@@ -45,6 +45,8 @@ public class JParManualTest {
 		
 		assertThat(result, containsString(WorkingFieldsExample.PROG_NAME));
 		assertThat(result, containsString(WorkingFieldsExample.PROG_DESC));
+		assertThat(result, containsString(WorkingFieldsExample.AUTHOR_A));
+		assertThat(result, containsString(WorkingFieldsExample.AUTHOR_B));
 		
 		assertThat(result, containsString(WorkingFieldsExample.OPT_BOOL_FIELD));
 		assertThat(result, containsString(WorkingFieldsExample.OPT_CLASS_FIELD));
@@ -85,6 +87,7 @@ public class JParManualTest {
 		
 		assertThat(result, containsString(WorkingMethodsExample.PROG_NAME));
 		assertThat(result, containsString(WorkingMethodsExample.PROG_DESC));
+		assertThat(result, containsString(WorkingMethodsExample.PROG_COPYRIGHT));
 		
 		assertThat(result, containsString(WorkingMethodsExample.OPT_BOOL_METHOD));
 		assertThat(result, containsString(WorkingMethodsExample.OPT_CLASS_METHOD));

@@ -1,10 +1,16 @@
 package de.bs.cli.jpar.process;
 
-public class Parameters {
+import de.bs.cli.jpar.JParException;
+import de.bs.cli.jpar.config.ExceptionMessages;
+
+public class Parameters implements ExceptionMessages {
 	private String[] args;
 	private int position = -1;
 	
 	public Parameters(final String[] args) {
+		if (args == null) {
+			throw new JParException(EXC_PROCESS_MISSING_ARGS);
+		}
 		this.args = args;
 	}
 	
@@ -14,7 +20,10 @@ public class Parameters {
 	}
 	
 	public String get() {
-		return args[position];
+		if (position >= 0 && position < args.length) {
+			return args[position];
+		}
+		return null;
 	}
 	
 	public boolean before() {

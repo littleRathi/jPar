@@ -6,10 +6,13 @@ import de.bs.cli.jpar.Arguments;
 import de.bs.cli.jpar.CliProgram;
 import de.bs.cli.jpar.Option;
 
-@CliProgram(name=WorkingFieldsExample.PROG_NAME, description=WorkingFieldsExample.PROG_DESC)
+@CliProgram(name=WorkingFieldsExample.PROG_NAME, description=WorkingFieldsExample.PROG_DESC,
+		authors={WorkingFieldsExample.AUTHOR_A, WorkingFieldsExample.AUTHOR_B})
 public class WorkingFieldsExample {
 	public static final String PROG_NAME = "WorkingFieldsExample";
 	public static final String PROG_DESC = "Good description for the program.";
+	public static final String AUTHOR_A = "Donald K.";
+	public static final String AUTHOR_B = "James G.";
 	
 	public static final String STRING_VALUE_A = "fieldAvalue";
 	public static final String STRING_VALUE_B = "fieldBvalue";
@@ -52,4 +55,26 @@ public class WorkingFieldsExample {
 	public static String[][] getValidStringValues() {
 		return new String[][]{{STRING_VALUE_A, STRING_VALUE_B, STRING_VALUE_C}};
 	}
+
+	public boolean isBoolField() {
+		return boolField;
+	}
+
+	public WorkingFieldsExample getClassField() {
+		return classField;
+	}
+
+	public String getStringField() {
+		return stringField;
+	}
+
+	public List<Integer> getListIntField() {
+		return listIntField;
+	}
+
+	public List<String> getListStringField() {
+		return listStringField;
+	}
+	
+	
 }

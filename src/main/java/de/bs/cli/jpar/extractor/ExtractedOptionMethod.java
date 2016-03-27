@@ -43,7 +43,7 @@ class ExtractedOptionMethod extends ExtractedOption {
 			value = getType().processArgs(option, argument, args);
 			method.invoke(program, value);
 		} catch (Exception e) {
-			throw new JParException(e, EXC_EXTRACTOR_COULD_NOT_SET, argument, option);
+			throw new JParException(e, EXC_EXTRACTOR_COULD_NOT_SET, value, argument, option);
 		}
 	}
 }
