@@ -13,11 +13,10 @@ Relevant for usage is only the package de.bs.cli.jpar, all other subpackages are
 - JParException: which is thrown inside of the library
 
 ## Todo
-- Tests
-- stabile API (through tests)
 
 
 ### next version
+- Tests (only ExpressionLanguage is missing, but will be changed, but how is unknown)
 - Überarbietung der ExpressionLanguage (no good name for it)
   * Latex variant:
   	- Parameters for commands, "explain" replacement from "latex" commands to text

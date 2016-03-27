@@ -15,7 +15,7 @@ public class Defaults {
 	}
 	
 	public static final void setListDelimiter(final String newListDelimiter) {
-		if (newListDelimiter == null || newListDelimiter.isEmpty()) {
+		if (newListDelimiter == null || newListDelimiter.trim().isEmpty()) {
 			throw new JParException(""); // TODO: Exception
 		}
 		LIST_DELIMITER = newListDelimiter;
@@ -26,7 +26,7 @@ public class Defaults {
 	}
 	
 	public static final void setOptionPrefix(final String newOptionPrefix) {
-		if (newOptionPrefix == null || newOptionPrefix.isEmpty()) {
+		if (newOptionPrefix == null || newOptionPrefix.trim().isEmpty()) {
 			throw new JParException(""); // TODO: Exception
 		}
 		OPTION_PREFIX = newOptionPrefix;
@@ -37,7 +37,7 @@ public class Defaults {
 	}
 	
 	public static final void setOptionDelimiter(final String newOptionDelimiter) {
-		if (newOptionDelimiter == null || newOptionDelimiter.isEmpty()) {
+		if (newOptionDelimiter == null || newOptionDelimiter.trim().isEmpty()) {
 			throw new JParException(""); // TODO: Exception
 		}
 		OPTION_DELIMITER = newOptionDelimiter;

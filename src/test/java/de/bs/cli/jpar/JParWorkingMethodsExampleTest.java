@@ -1,69 +1,81 @@
-package de.bs.cli.jpar.process;
+package de.bs.cli.jpar;
 
 import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.hasItems;
-
-import static de.bs.cli.jpar.config.Defaults.*;
+import static de.bs.cli.jpar.config.Defaults.getListDelimiter;
+import static de.bs.cli.jpar.config.Defaults.getOptionDelimiter;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_CLASS_FIELD;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_STRING_FIELD;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.INT_LIST_VALUE_1;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.INT_LIST_VALUE_2;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.INT_LIST_VALUE_3;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.OPT_BOOL_METHOD;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.OPT_CLASS_METHOD;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.OPT_LIST_INT_METHOD;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.OPT_LIST_STRING_METHOD;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.OPT_STRING_METHOD;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.STRING_LIST_VALUE_A;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.STRING_LIST_VALUE_B;
+import static de.bs.cli.jpar.examples.WorkingMethodsExample.STRING_VALUE_A;
 import static de.bs.cli.jpar.extractor.ExtractedOption.asOptionName;
-
-import static de.bs.cli.jpar.examples.WorkingMethodsExample.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.examples.WorkingMethodsExample;
 import de.bs.cli.jpar.extractor.type.BooleanType;
+import de.bs.cli.jpar.process.JParProcess;
 
-public class JParProcessMethodsTest {
+public class JParWorkingMethodsExampleTest {
 	private static final String boolValue = BooleanType.TRUE;
 	private static final String classValue = "de.bs.cli.jpar.examples.WorkingMethodsExample";
 	private static final String stringValue = STRING_VALUE_A;
 	private static final String listIntValue = INT_LIST_VALUE_1 + getListDelimiter() + INT_LIST_VALUE_3 + getListDelimiter() + INT_LIST_VALUE_2;
 	private static final String listStringValue = STRING_LIST_VALUE_A + getListDelimiter() + STRING_LIST_VALUE_B;
 	
-	private WorkingMethodsExample test = new WorkingMethodsExample();
-	private JParProcess testee;
+	private WorkingMethodsExample test;
 	
 	@Before
 	public void setupTest() {
-		testee = new JParProcess();
+		test = new WorkingMethodsExample();
 	}
 	
 	@After
 	public void teardownTest() {
-		testee = null;
+		test = null;
 	}
 	
 	@Test(expected=JParException.class)
 	public void testNoArgs() {
-		testee.processArgs(test, null);
-		
-		fail();
-	}
-	@Test(expected=JParException.class)
-	public void testNoRequired() {
-		String[] args = new String[]{
-				createPar(OPT_CLASS_METHOD, classValue)
-		};
-		
-		preValidation();
-		
-		testee.processArgs(test, args);
+		JPar.process(test, null);
 		
 		fail();
 	}
 	
-	@Test
+	@Test(expected=JParException.class)
+	public void testNoProgram() {
+		String[] args = new String[]{
+				createPar(OPT_BOOL_METHOD, boolValue),
+				createPar(OPT_LIST_INT_METHOD, listIntValue)
+		};
+		
+		preValidation();
+		
+		JPar.process(null, args);
+		
+		fail();
+	}
+	
+	@Test(expected=JParException.class)
 	public void testOnlyRequiredOptions() {
 		String[] args = new String[]{
 				createPar(OPT_BOOL_METHOD, boolValue),
@@ -72,7 +84,7 @@ public class JParProcessMethodsTest {
 		
 		preValidation();
 		
-		testee.processArgs(test, args);
+		JPar.process(null, args);
 		
 		assertThat(test.isTmpBoolValue(), equalTo(true));
 		assertThat(test.getTmpIntList(), notNullValue());
@@ -91,7 +103,7 @@ public class JParProcessMethodsTest {
 		
 		preValidation();
 		
-		testee.processArgs(test, args);
+		JPar.process(test, args);
 		
 		assertThat(test.isTmpBoolValue(), equalTo(true));
 		
@@ -110,52 +122,7 @@ public class JParProcessMethodsTest {
 	}
 	
 	@Test(expected=JParException.class)
-	public void testClassWrongWithRequiredOptions() {
-		String[] args = new String[]{
-				createPar(OPT_BOOL_METHOD, boolValue),
-				createPar(OPT_CLASS_METHOD, "abcdefghijklmnopqrst"),
-				createPar(OPT_LIST_INT_METHOD, listIntValue)
-		};
-		
-		preValidation();
-		
-		testee.processArgs(test, args);
-		
-		fail();
-	}
-	
-	@Test(expected=JParException.class)
-	public void testStringWrongWithRequiredOptions() {
-		String[] args = new String[]{
-				createPar(OPT_BOOL_METHOD, boolValue),
-				createPar(OPT_STRING_METHOD, "abcdefghijklmnopqrst"),
-				createPar(OPT_LIST_INT_METHOD, listIntValue)
-		};
-		
-		preValidation();
-		
-		testee.processArgs(test, args);
-		
-		fail();
-	}
-	
-	@Test(expected=JParException.class)
-	public void testListStringWrongWithRequiredOptions() {
-		String[] args = new String[]{
-				createPar(OPT_BOOL_METHOD, boolValue),
-				createPar(OPT_LIST_INT_METHOD, listIntValue),
-				createPar(OPT_LIST_STRING_METHOD, "abcdefghijklmnopqrst")
-		};
-		
-		preValidation();
-		
-		testee.processArgs(test, args);
-		
-		fail();
-	}
-	
-	@Test(expected=JParException.class)
-	public void testWrongBool() {
+	public void testWrongBoolWithRequiredOptions() {
 		String[] args = new String[]{
 				createPar(OPT_BOOL_METHOD, "abcdefghijklmnopqrstuvwxyz"),
 				createPar(OPT_LIST_INT_METHOD, listIntValue)
@@ -163,21 +130,66 @@ public class JParProcessMethodsTest {
 		
 		preValidation();
 		
-		testee.processArgs(test, args);
+		JPar.process(null, args);
 		
 		fail();
 	}
 	
 	@Test(expected=JParException.class)
-	public void estWrongListInt() {
+	public void testWrongClassWithRequiredOptions() {
 		String[] args = new String[]{
 				createPar(OPT_BOOL_METHOD, boolValue),
-				createPar(OPT_LIST_INT_METHOD, "abcdefghijklmnopqrstuvwxyz")
+				createPar(OPT_CLASS_METHOD, "abcdefghijklmnopqrstuvwxyz"),
+				createPar(OPT_LIST_INT_METHOD, listIntValue),
 		};
 		
 		preValidation();
 		
-		testee.processArgs(test, args);
+		JPar.process(test, args);
+		
+		fail();
+	}
+	
+	@Test(expected=JParException.class)
+	public void testWrongStringWithRequiredOptions() {
+		String[] args = new String[]{
+				createPar(OPT_BOOL_METHOD, boolValue),
+				createPar(OPT_STRING_METHOD, "abcdefghijklmnopqrstuvwxyz"),
+				createPar(OPT_LIST_INT_METHOD, listIntValue),
+		};
+		
+		preValidation();
+		
+		JPar.process(test, args);
+		
+		fail();
+	}
+	
+	@Test(expected=JParException.class)
+	public void testWrongListIntWithRequiredOptions() {
+		String[] args = new String[]{
+				createPar(OPT_BOOL_METHOD, boolValue),
+				createPar(OPT_LIST_INT_METHOD, "abcdefghijklmnopqrstuvwxyz"),
+		};
+		
+		preValidation();
+		
+		JPar.process(test, args);
+		
+		fail();
+	}
+	
+	@Test(expected=JParException.class)
+	public void testWrongListStringWithRequiredOptions() {
+		String[] args = new String[]{
+				createPar(OPT_BOOL_METHOD, boolValue),
+				createPar(OPT_LIST_INT_METHOD, listIntValue),
+				createPar(OPT_LIST_STRING_METHOD, "abcdefghijklmnopqrstuvwxyz")
+		};
+		
+		preValidation();
+		
+		JPar.process(test, args);
 		
 		fail();
 	}

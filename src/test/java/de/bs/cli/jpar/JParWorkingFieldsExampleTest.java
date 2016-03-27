@@ -1,30 +1,35 @@
-package de.bs.cli.jpar.process;
+package de.bs.cli.jpar;
 
 import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.hasItems;
-
-import static de.bs.cli.jpar.config.Defaults.*;
+import static de.bs.cli.jpar.config.Defaults.getListDelimiter;
+import static de.bs.cli.jpar.config.Defaults.getOptionDelimiter;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.LIST_INT_DELIMITER;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_BOOL_FIELD;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_CLASS_FIELD;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_LIST_INT_FIELD;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_LIST_STRING_FIELD;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_STRING_FIELD;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.STRING_VALUE_A;
+import static de.bs.cli.jpar.examples.WorkingFieldsExample.STRING_VALUE_B;
 import static de.bs.cli.jpar.extractor.ExtractedOption.asOptionName;
-
-import static de.bs.cli.jpar.examples.WorkingFieldsExample.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.examples.WorkingFieldsExample;
 import de.bs.cli.jpar.extractor.type.BooleanType;
 
-public class JParProcessFieldsTest {
+public class JParWorkingFieldsExampleTest {
 	private static final Integer INT_12 = 12;
 	private static final Integer INT_24 = 24;
 	
@@ -35,36 +40,28 @@ public class JParProcessFieldsTest {
 	private static final String listStringValue = STRING_VALUE_A + getListDelimiter() + STRING_VALUE_B;
 	
 	private WorkingFieldsExample test;
-	private JParProcess testee;
 	
 	@Before
 	public void setupTest() {
-		testee = new JParProcess();
 		test = new WorkingFieldsExample();
 	}
 	
 	@After
 	public void teardownTest() {
-		testee = null;
 		test = null;
 	}
 	
 	@Test(expected=JParException.class)
 	public void testNoArgs() {
-		testee.processArgs(test, null);
+		JPar.process(test, null);
 		
 		fail();
 	}
 	
 	@Test(expected=JParException.class)
-	public void testNoRequired() {
-		String[] args = new String[]{
-				createPar(OPT_BOOL_FIELD, boolValue)
-		};
-		
-		preValidation();
-		
-		testee.processArgs(test, args);
+	public void testNoProgram() {
+		String[] args = new String[]{};
+		JPar.process(null, args);
 		
 		fail();
 	}
@@ -78,7 +75,7 @@ public class JParProcessFieldsTest {
 		
 		preValidation();
 		
-		testee.processArgs(test, args);
+		JPar.process(test, args);
 		
 		assertThat(test.getClassField(), notNullValue());
 		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
@@ -97,7 +94,7 @@ public class JParProcessFieldsTest {
 		
 		preValidation();
 		
-		testee.processArgs(test, args);
+		JPar.process(test, args);
 		
 		assertThat(test.isBoolField(), equalTo(true));
 		
@@ -117,61 +114,75 @@ public class JParProcessFieldsTest {
 	
 	@Test(expected=JParException.class)
 	public void testBoolWrongWithRequiredOptions() {
-		String[] args = new String[] {
-				createPar(OPT_BOOL_FIELD, "abc"),
-				createPar(OPT_CLASS_FIELD, classValue),
-				createPar(OPT_STRING_FIELD, stringValue),
-		};
-		
-		preValidation();
-		
-		testee.processArgs(test, args);
-		
-		fail();
-	}
-	
-	@Test(expected=JParException.class)
-	public void testListIntWrongWithRequiredOptions() {
-		String[] args = new String[] {
-				createPar(OPT_LIST_INT_FIELD, "abc"),
-				createPar(OPT_CLASS_FIELD, classValue),
-				createPar(OPT_STRING_FIELD, stringValue),
-		};
-		
-		preValidation();
-		
-		testee.processArgs(test, args);
-		
-		fail();
-	}
-	
-	@Test(expected=JParException.class)
-	public void testListStringWrongWithRequiredOptions() {
-		String[] args = new String[] {
-				createPar(OPT_LIST_STRING_FIELD, "abcdefghijklmnopq"),
-				createPar(OPT_CLASS_FIELD, classValue),
-				createPar(OPT_STRING_FIELD, stringValue),
-		};
-		
-		preValidation();
-		
-		testee.processArgs(test, args);
-		
-		fail();
-	}
-	
-	@Test(expected=JParException.class)
-	public void testWrongClass() {
 		String[] args = new String[]{
-			createPar(OPT_CLASS_FIELD, "abcdefghijklmnopq"),
+				createPar(OPT_BOOL_FIELD, "abcdefghijklmnopqrstuvwxyz"),
+				createPar(OPT_CLASS_FIELD, classValue),
+				createPar(OPT_STRING_FIELD, stringValue)
+		};
+		
+		preValidation();
+		
+		JPar.process(test, args);
+		
+		fail();
+	}
+	
+	@Test(expected=JParException.class)
+	public void testWrongClassWithRequiredOptions() {
+		String[] args = new String[]{
+			createPar(OPT_CLASS_FIELD, "abcdefghijklmnopqrstuvwxyz"),
 			createPar(OPT_STRING_FIELD, stringValue)
 		};
 		
 		preValidation();
 		
-		testee.processArgs(test, args);
+		JPar.process(test, args);
 		
 		fail();
+	}
+	
+	@Test(expected=JParException.class)
+	public void testWrongListIntWithRequiredOptions() {
+		String[] args = new String[]{
+				createPar(OPT_CLASS_FIELD, classValue),
+				createPar(OPT_STRING_FIELD, stringValue),
+				createPar(OPT_LIST_INT_FIELD, "abcdefghijklmnopqrstuvwxyz")
+		};
+		
+		preValidation();
+		
+		JPar.process(test, args);
+		
+		assertThat(test.getClassField(), notNullValue());
+		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
+		
+		assertThat(test.getStringField(), equalTo(stringValue));
+		
+		List<Integer> intList = test.getListIntField();
+		assertThat(intList, notNullValue());
+		assertThat(intList, hasItems(INT_12, INT_24));
+	}
+	
+	@Test
+	public void testWrongListStringWithRequiredOptions() {
+		String[] args = new String[]{
+				createPar(OPT_CLASS_FIELD, classValue),
+				createPar(OPT_STRING_FIELD, stringValue),
+				createPar(OPT_LIST_STRING_FIELD, listStringValue)
+		};
+		
+		preValidation();
+		
+		JPar.process(test, args);
+		
+		assertThat(test.getClassField(), notNullValue());
+		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
+		
+		assertThat(test.getStringField(), equalTo(stringValue));
+		
+		List<String> stringList = test.getListStringField();
+		assertThat(stringList, notNullValue());
+		assertThat(stringList, hasItems(STRING_VALUE_A, STRING_VALUE_B));
 	}
 	
 	private void preValidation() {

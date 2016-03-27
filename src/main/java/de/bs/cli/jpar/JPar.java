@@ -7,6 +7,12 @@ import de.bs.cli.jpar.process.JParProcess;
 
 public class JPar implements ExceptionMessages {
 	public static void process(final Object program, final String[] args) {
+		if (program == null) {
+			throw new JParException(""); // TODO Exception
+		}
+		if (args == null) {
+			throw new JParException(""); // TODO Exception
+		}
 		JParProcess ap = new JParProcess();
 		ap.processArgs(program, args);
 	}

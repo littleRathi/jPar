@@ -6,10 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Values {
-	public static String[] createSimpleValueList(final String... values) {
-		return values;
-	}
-	
 	public static String[] createSimpleValueList(final Class<?> valueListClass, final String... additionalValues) {
 		List<String> values = new LinkedList<String>();
 		
@@ -27,8 +23,16 @@ public class Values {
 		return values.toArray(new String[values.size()]);
 	}
 	
+	public static String[] createSimpleValueList(final String... values) {
+		return values;
+	}
+	
 	public static String[][] createSingleGroup(final Class<?> valueListClass, final String... additionalValues) {
 		return new String[][]{createSimpleValueList(valueListClass, additionalValues)};
+	}
+	
+	public static String[][] createSingleGroup(final String... values) {
+		return new String[][]{values};
 	}
 	
 	public static String[][] createGroups(final String[]... groups) {
