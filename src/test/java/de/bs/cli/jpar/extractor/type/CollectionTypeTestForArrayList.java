@@ -13,12 +13,12 @@ public class CollectionTypeTestForArrayList extends CollectionTypeTestBase<Array
 	}
 
 	@Override
-	protected Collection getCollectionInstance() {
+	protected Collection<?> getCollectionInstance() {
 		return new ArrayList();
 	}
 
 	@Override
-	protected Collection getWrongCollectionInstance() {
+	protected Collection<?> getWrongCollectionInstance() {
 		return new HashSet();
 	}
 

@@ -13,12 +13,12 @@ public class CollectionTypeTestForHashSet extends CollectionTypeTestBase<HashSet
 	}
 
 	@Override
-	protected Collection getCollectionInstance() {
+	protected Collection<?> getCollectionInstance() {
 		return new HashSet();
 	}
 
 	@Override
-	protected Collection getWrongCollectionInstance() {
+	protected Collection<?> getWrongCollectionInstance() {
 		return new LinkedList();
 	}
 

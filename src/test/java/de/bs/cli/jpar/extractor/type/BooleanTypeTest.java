@@ -6,6 +6,8 @@ import static org.junit.Assert.fail;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 
+import static de.bs.hamcrest.ClassMatchers.equalToType;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -85,12 +87,11 @@ public class BooleanTypeTest {
 		assertThat(returned, equalTo(option));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetTargetType() {
-		Class returned = (Class)testee.getTargetType();
+		Class<?> returned = testee.getTargetType();
 		
-		assertThat(returned, equalTo((Class)Boolean.class));
+		assertThat(returned, equalToType(Boolean.class));
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

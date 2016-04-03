@@ -8,6 +8,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.instanceOf;
+
 import static org.junit.Assert.assertThat;
 
 import static de.bs.cli.jpar.config.Defaults.getListDelimiter;
@@ -78,7 +80,7 @@ public class JParWorkingFieldsExampleTest {
 		JPar.process(test, args);
 		
 		assertThat(test.getClassField(), notNullValue());
-		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
+		assertThat(test.getClassField(), instanceOf(WorkingFieldsExample.class));
 		assertThat(test.getStringField(), equalTo(stringValue));
 	}
 	
@@ -99,7 +101,7 @@ public class JParWorkingFieldsExampleTest {
 		assertThat(test.isBoolField(), equalTo(true));
 		
 		assertThat(test.getClassField(), notNullValue());
-		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
+		assertThat(test.getClassField(), instanceOf(WorkingFieldsExample.class));
 		
 		assertThat(test.getStringField(), equalTo(stringValue));
 		
@@ -154,7 +156,7 @@ public class JParWorkingFieldsExampleTest {
 		JPar.process(test, args);
 		
 		assertThat(test.getClassField(), notNullValue());
-		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
+		assertThat(test.getClassField(), instanceOf(WorkingFieldsExample.class));
 		
 		assertThat(test.getStringField(), equalTo(stringValue));
 		
@@ -176,7 +178,7 @@ public class JParWorkingFieldsExampleTest {
 		JPar.process(test, args);
 		
 		assertThat(test.getClassField(), notNullValue());
-		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
+		assertThat(test.getClassField(), instanceOf(WorkingFieldsExample.class));
 		
 		assertThat(test.getStringField(), equalTo(stringValue));
 		

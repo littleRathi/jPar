@@ -5,13 +5,16 @@ import static org.junit.Assert.fail;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.CoreMatchers.containsString;
+
+import static de.bs.hamcrest.ClassMatchers.equalToType;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import static de.bs.cli.jpar.config.Defaults.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,6 +48,11 @@ public class VoidTypeTest {
 	@Before
 	public void setupTest() {
 		testee = new VoidType(mockExtractedOption(), null);
+	}
+	
+	@After
+	public void teardownTest() {
+		testee = null;
 	}
 	
 	// super ctor part
@@ -81,12 +89,11 @@ public class VoidTypeTest {
 		assertThat(returned, equalTo(option));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetTargetType() {
-		Class returned = (Class)testee.getTargetType();
+		Class<?> returned = testee.getTargetType();
 		
-		assertThat(returned, equalTo((Class)Void.class));
+		assertThat(returned, equalToType(Void.class));
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

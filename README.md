@@ -5,12 +5,25 @@ Little lib for handling parameter given on the commandline
 
 Relevant for usage is only the package de.bs.cli.jpar, all other subpackages are for internal usage:
 
-- @CliProgram annotation: to mark a class, that contains all the options
-- @Option: mark a method or field as a option, method should only have one parameter
-- @Arguments: that to mark possible values for an option, can be on a field/method that also marked with @Option or on a method, that has no parameters and returns String\[][]
-- JPar: method that take care of processing parameters or creating manual information
-- Values: contains static method for creating String\[][] arrays, useful for methods annotated with @Arguments
-- JParException: which is thrown inside of the library
+### @CliProgram annotation
+to mark a class, that contains all the options
+
+### @Option
+mark a method or field as a option, method should only have one parameter
+
+### @Arguments
+that to mark possible values for an option, can be on a field/method that also marked with @Option or on a method, that has no parameters and returns String\[][]
+
+### JPar
+method that take care of processing parameters or creating manual information
+
+### Values
+contains static method for creating String\[][] arrays, useful for methods annotated with @Arguments
+
+### JParException
+which is thrown inside of the library
+
+## Usage
 
 ## Todo
 

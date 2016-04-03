@@ -2,6 +2,7 @@ package de.bs.cli.jpar.extractor;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static de.bs.hamcrest.ClassMatchers.equalToType;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -50,12 +51,11 @@ public abstract class ExtractedOptionBaseTest {
 		assertThat(result, equalTo(ExtractedOption.asOptionName(getName())));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetTargetType() {
 		Class<?> result = testee.getTargetType();
 		
-		assertThat(result, equalTo((Class)getTargetType()));
+		assertThat(result, equalToType(getTargetType()));
 	}
 	
 	@Test
@@ -72,12 +72,11 @@ public abstract class ExtractedOptionBaseTest {
 		assertThat(result, equalTo(option));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetSourceType() {
 		Class<?> result = testee.getSourceType();
 		
-		assertThat(result, equalTo((Class)getSourceType()));
+		assertThat(result, equalToType(getSourceType()));
 	}
 	
 	@Test

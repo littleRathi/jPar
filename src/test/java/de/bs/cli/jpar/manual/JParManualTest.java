@@ -78,7 +78,7 @@ public class JParManualTest {
 		String result = testee.createHelpDescription(WorkingMethodsExample.class);
 		
 		assertThat(result, notNullValue());
-		assertThat(result.length(), greaterThan(0));
+		assertThat(result.length(), greaterThan(0)); // matcher string.length...
 		
 		assertThat(result, containsString(JParManual.PART_PROG_NAME));
 		assertThat(result, containsString(JParManual.PART_SYNOPSIS));

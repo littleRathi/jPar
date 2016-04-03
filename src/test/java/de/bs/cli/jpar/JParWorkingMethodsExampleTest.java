@@ -1,19 +1,7 @@
 package de.bs.cli.jpar;
 
-import static org.junit.Assert.fail;
-
-import java.util.List;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
-
 import static de.bs.cli.jpar.config.Defaults.getListDelimiter;
 import static de.bs.cli.jpar.config.Defaults.getOptionDelimiter;
-import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_CLASS_FIELD;
-import static de.bs.cli.jpar.examples.WorkingFieldsExample.OPT_STRING_FIELD;
 import static de.bs.cli.jpar.examples.WorkingMethodsExample.INT_LIST_VALUE_1;
 import static de.bs.cli.jpar.examples.WorkingMethodsExample.INT_LIST_VALUE_2;
 import static de.bs.cli.jpar.examples.WorkingMethodsExample.INT_LIST_VALUE_3;
@@ -26,6 +14,15 @@ import static de.bs.cli.jpar.examples.WorkingMethodsExample.STRING_LIST_VALUE_A;
 import static de.bs.cli.jpar.examples.WorkingMethodsExample.STRING_LIST_VALUE_B;
 import static de.bs.cli.jpar.examples.WorkingMethodsExample.STRING_VALUE_A;
 import static de.bs.cli.jpar.extractor.ExtractedOption.asOptionName;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +30,6 @@ import org.junit.Test;
 
 import de.bs.cli.jpar.examples.WorkingMethodsExample;
 import de.bs.cli.jpar.extractor.type.BooleanType;
-import de.bs.cli.jpar.process.JParProcess;
 
 public class JParWorkingMethodsExampleTest {
 	private static final String boolValue = BooleanType.TRUE;
@@ -108,7 +104,7 @@ public class JParWorkingMethodsExampleTest {
 		assertThat(test.isTmpBoolValue(), equalTo(true));
 		
 		assertThat(test.getTmpObjectInstance(), notNullValue());
-		assertThat(test.getTmpObjectInstance().getClass().getName(), equalTo(classValue));
+		assertThat(test.getTmpObjectInstance(), instanceOf(WorkingMethodsExample.class));
 		
 		assertThat(test.getTmpStringValue(), equalTo(stringValue));
 		

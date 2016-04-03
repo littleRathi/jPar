@@ -1,11 +1,13 @@
 package de.bs.cli.jpar.extractor.type;
 
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.CoreMatchers.containsString;
+
+import static de.bs.hamcrest.ClassMatchers.equalToType;
 
 import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.mock;
@@ -13,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 import static de.bs.cli.jpar.config.Defaults.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,6 +61,11 @@ public class StringTypeTest {
 	public void setupTest() {
 		testee = new StringType(mockExtractedOption(), null);
 	}
+	
+	@After
+	public void teardownTest() {
+		testee = null;
+	}
 
 	// super ctor part
 	@Test(expected=JParException.class)
@@ -86,12 +94,11 @@ public class StringTypeTest {
 		assertThat(returned, equalTo(option));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetTargetType() {
-		Class returned = (Class)testee.getTargetType();
+		Class<?> returned = testee.getTargetType();
 		
-		assertThat(returned, equalTo((Class)TARGET_TYPE));
+		assertThat(returned, equalToType(TARGET_TYPE));
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -138,7 +145,7 @@ public class StringTypeTest {
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, VALID_VALUE_A00, args);
 		
 		assertThat(result, instanceOf(String.class));
-		assertThat((String)result, equalTo(VALID_VALUE_A00));
+		assertThat((String)result, equalTo(VALID_VALUE_A00)); // TODO matcher hamcrest: check for type and allow add additional matchers
 	}
 	
 	@Test

@@ -5,12 +5,13 @@ import static org.junit.Assert.assertThat;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.not;
+
+import static de.bs.hamcrest.ClassMatchers.equalToType;
+import static de.bs.hamcrest.ArrayMatchers.arrayHasItems;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +20,7 @@ import org.junit.Test;
 import de.bs.cli.jpar.CliProgram;
 import de.bs.cli.jpar.JParException;
 
-// TODO: test for new authors and copyright
+
 public class ExtractedProgramTest {
 	private ExtractedProgram testee;
 	
@@ -28,9 +29,10 @@ public class ExtractedProgramTest {
 	
 	private static final String PROG_AUTHOR_A = "abc";
 	private static final String PROG_AUTHOR_B = "def";
+	private static final String PROG_AUTHOR_INVALID = "Mastermind";
 	private static final String[] PROG_AUTHORS = new String[]{PROG_AUTHOR_A, PROG_AUTHOR_B};
 	
-	private static final String PROG_COPY_NO_RIGHT = "This program has some kind of copyright";
+	private static final String PROG_COPYRIGHT = "This program has some kind of copyright";
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Before
@@ -40,7 +42,7 @@ public class ExtractedProgramTest {
 		when(programAnnotation.name()).thenReturn(PROG_NAME);
 		when(programAnnotation.description()).thenReturn(PROG_DESC);
 		when(programAnnotation.authors()).thenReturn(PROG_AUTHORS);
-		when(programAnnotation.copyright()).thenReturn(PROG_COPY_NO_RIGHT);
+		when(programAnnotation.copyright()).thenReturn(PROG_COPYRIGHT);
 		testee = new ExtractedProgram(getClass(), programAnnotation);
 	}
 	
@@ -80,13 +82,12 @@ public class ExtractedProgramTest {
 		assertThat(name, equalTo(PROG_NAME));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetType() {
-		Class type = testee.getType();
+		Class<?> type = testee.getType();
 		
 		assertThat(type, notNullValue());
-		assertThat(type, equalTo((Class)getClass()));
+		assertThat(type, equalToType(getClass()));
 	}
 	
 	@Test
@@ -101,13 +102,20 @@ public class ExtractedProgramTest {
 	public void testGetAuthors() {
 		String[] result = testee.getAuthors();
 		
-		assertThat(Arrays.asList(result), hasItems(PROG_AUTHOR_A, PROG_AUTHOR_B));
+		assertThat(result, arrayHasItems(PROG_AUTHOR_A, PROG_AUTHOR_B));
+	}
+	
+	@Test
+	public void testGetAuthorsInvalidAuthor() {
+		String[] result = testee.getAuthors();
+		
+		assertThat(result, not(arrayHasItems(PROG_AUTHOR_INVALID)));
 	}
 	
 	@Test
 	public void testGetCopyright() {
 		String result = testee.getCopyright();
 		
-		assertThat(result, equalTo(PROG_COPY_NO_RIGHT));
+		assertThat(result, equalTo(PROG_COPYRIGHT));
 	}
 }

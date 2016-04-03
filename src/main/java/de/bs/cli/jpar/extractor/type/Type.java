@@ -56,7 +56,7 @@ public abstract class Type implements ExceptionMessages {
 		if (option.getOption().sourceType() == Class.class) {
 			return new ClassObjectType(type, option, arguments);	
 		}
-		throw new JParException(EXC_TYPE_UNSUPPORTED, type);
+		throw new JParException(EXC_TYPE_UNSUPPORTED_YET, type);
 	}
 	public abstract Object processArgs(final String option, final String argument, final Parameters args);
 

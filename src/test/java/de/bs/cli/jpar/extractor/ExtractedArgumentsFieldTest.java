@@ -1,7 +1,9 @@
 package de.bs.cli.jpar.extractor;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.greaterThan;
+import static de.bs.hamcrest.ArrayMatchers.arrayLength;
+import static de.bs.hamcrest.ArrayMatchers.arrayElementAt;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -29,9 +31,7 @@ public class ExtractedArgumentsFieldTest {
 		return field.getAnnotation(Arguments.class);
 	}
 	
-	// TODO
-	// base test first on one valid and then fail test by removing (or if relevant add) allowed elements
-	
+	// TODO[rework] base test first on one valid and then fail test by removing (or if relevant add) allowed elements
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void createOption() {
 		option = mock(Option.class);
@@ -274,7 +274,7 @@ public class ExtractedArgumentsFieldTest {
 		
 		assertThat(args, notNullValue());
 		assertThat(args.getValues(), notNullValue());
-		assertThat(args.getValues().length, greaterThan(0));
-		assertThat(args.getValues()[0].length, greaterThan(0));
+		assertThat(args.getValues(), arrayLength(greaterThan(0)));
+		assertThat(args.getValues(), arrayElementAt(0, arrayLength(greaterThan(0))));
 	}
 }

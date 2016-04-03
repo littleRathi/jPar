@@ -8,10 +8,10 @@ import de.bs.cli.jpar.process.JParProcess;
 public class JPar implements ExceptionMessages {
 	public static void process(final Object program, final String[] args) {
 		if (program == null) {
-			throw new JParException(""); // TODO Exception
+			throw new JParException(EXC_MAIN_NO_PROGRAM_OBJECT);
 		}
 		if (args == null) {
-			throw new JParException(""); // TODO Exception
+			throw new JParException(EXC_MAIN_NO_ARGS_ARRAY);
 		}
 		JParProcess ap = new JParProcess();
 		ap.processArgs(program, args);

@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.hasItems;
+import static de.bs.hamcrest.ClassMatchers.fullQualifiedName;
 
 import static de.bs.cli.jpar.config.Defaults.*;
 import static de.bs.cli.jpar.extractor.ExtractedOption.asOptionName;
@@ -81,7 +82,7 @@ public class JParProcessFieldsTest {
 		testee.processArgs(test, args);
 		
 		assertThat(test.getClassField(), notNullValue());
-		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
+		assertThat(test.getClassField().getClass(), fullQualifiedName(equalTo(classValue)));
 		assertThat(test.getStringField(), equalTo(stringValue));
 	}
 	
@@ -102,7 +103,7 @@ public class JParProcessFieldsTest {
 		assertThat(test.isBoolField(), equalTo(true));
 		
 		assertThat(test.getClassField(), notNullValue());
-		assertThat(test.getClassField().getClass().getName(), equalTo(classValue));
+		assertThat(test.getClassField().getClass(), fullQualifiedName(equalTo(classValue)));
 		
 		assertThat(test.getStringField(), equalTo(stringValue));
 		

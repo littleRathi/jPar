@@ -13,15 +13,7 @@ import de.bs.cli.jpar.config.Consts;
 @Target({ElementType.FIELD, ElementType.METHOD})
 public @interface Option {
 	String name();
-	/* The description of the option, and what it does. */
 	String description();
-	/* To mark the option as required. */
 	boolean required() default Consts.REQUIRED;
-	/* Can be used, when there is no real targetField,
-	 * but there must be implizit or expizit a field, 
-	 * or method -> in other words, there have to be a 
-	 * target. Especially, when implementing the method 
-	 * to set the values. Could be usefull by list, damn
-	 * generic types ^^ */
 	Class<?> sourceType() default Void.class;
 }

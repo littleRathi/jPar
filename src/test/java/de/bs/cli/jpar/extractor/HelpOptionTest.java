@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static de.bs.hamcrest.ClassMatchers.equalToType;
 
 import static de.bs.cli.jpar.extractor.ExtractedOption.asElName;
 import static de.bs.cli.jpar.extractor.ExtractedOption.asOptionName;
@@ -54,12 +55,11 @@ public class HelpOptionTest {
 		assertThat(result, equalTo(asOptionName(Consts.NAME_HELP)));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetTargetType() {
-		Class result = testee.getTargetType();
+		Class<?> result = testee.getTargetType();
 		
-		assertThat(result, equalTo((Class)Void.class));
+		assertThat(result, equalToType(Void.class));
 	}
 	
 	@Test
@@ -69,12 +69,11 @@ public class HelpOptionTest {
 		assertThat(result, equalTo(Consts.PHANTOM_TARGET_NAME_PREFIX + Consts.NAME_HELP));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetSourceType() {
-		Class result = testee.getSourceType();
+		Class<?> result = testee.getSourceType();
 		
-		assertThat(result, equalTo((Class)Void.class));
+		assertThat(result, equalToType(Void.class));
 	}
 	
 	@Test
@@ -92,13 +91,12 @@ public class HelpOptionTest {
 		assertThat(result, equalTo(Boolean.FALSE));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetType() {
 		Type result = testee.getType();
 		
 		assertThat(result, notNullValue());
-		assertThat(result.getClass(), equalTo((Class)VoidType.class));
+		assertThat(result.getClass(), equalToType(VoidType.class));
 	}
 	
 	@Test(expected=JParException.class)

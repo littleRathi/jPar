@@ -1,6 +1,6 @@
 package de.bs.cli.jpar.extractor.type;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static de.bs.hamcrest.ClassMatchers.equalToType;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Test;
 
 import de.bs.cli.jpar.JParException;
@@ -24,8 +25,10 @@ import de.bs.cli.jpar.extractor.ExtractedOption;
 public class CollectionTypeTestForType {
 	private CollectionType testee;
 	
-	@SuppressWarnings("unused")
-	private ExtractedOption option;
+	@After
+	public void teardownTest() {
+		testee = null;
+	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ExtractedOption mockExtractedOption(final Class sourceType) {
@@ -62,85 +65,75 @@ public class CollectionTypeTestForType {
 		fail();
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testTargetTypeHashSet() {
 		testee = new CollectionType(HashSet.class, mockExtractedOption(String.class), mockExtractedArguments());
 		
-		assertThat(testee.getTargetType(), equalTo((Class)HashSet.class));
+		assertThat(testee.getTargetType(), equalToType(HashSet.class));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testTargetTypeSet() {
 		testee = new CollectionType(Set.class, mockExtractedOption(String.class), mockExtractedArguments());
 		
-		assertThat(testee.getTargetType(), equalTo((Class)Set.class));
+		assertThat(testee.getTargetType(), equalToType(Set.class));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testTargetTypeArrayList() {
 		testee = new CollectionType(ArrayList.class, mockExtractedOption(String.class), mockExtractedArguments());
 		
-		assertThat(testee.getTargetType(), equalTo((Class)ArrayList.class));
+		assertThat(testee.getTargetType(), equalToType(ArrayList.class));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testTargetTypeLinkedList() {
 		testee = new CollectionType(LinkedList.class, mockExtractedOption(String.class), mockExtractedArguments());
 		
-		assertThat(testee.getTargetType(), equalTo((Class)LinkedList.class));
+		assertThat(testee.getTargetType(), equalToType(LinkedList.class));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testTargetTypeList() {
 		testee = new CollectionType(List.class, mockExtractedOption(String.class), mockExtractedArguments());
 		
-		assertThat(testee.getTargetType(), equalTo((Class)List.class));
+		assertThat(testee.getTargetType(), equalToType(List.class));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testTargetTypePriorityQueue() {
 		testee = new CollectionType(PriorityQueue.class, mockExtractedOption(String.class), mockExtractedArguments());
 		
-		assertThat(testee.getTargetType(), equalTo((Class)PriorityQueue.class));
+		assertThat(testee.getTargetType(), equalToType(PriorityQueue.class));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testTargetTypeCollection() {
 		testee = new CollectionType(Collection.class, mockExtractedOption(String.class), mockExtractedArguments());
 		
-		assertThat(testee.getTargetType(), equalTo((Class)Collection.class));
+		assertThat(testee.getTargetType(), equalToType(Collection.class));
 	}
 	
 	// check source type
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testSourceTypeString() {
 		testee = new CollectionType(Set.class, mockExtractedOption(String.class), mockExtractedArguments());
 		
-		assertThat(testee.getOption().getSourceType(), equalTo((Class)String.class));
+		assertThat(testee.getOption().getSourceType(), equalToType(String.class));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testSourceTypeFile() {
 		testee = new CollectionType(Set.class, mockExtractedOption(File.class), mockExtractedArguments());
 		
-		assertThat(testee.getOption().getSourceType(), equalTo((Class)File.class));
+		assertThat(testee.getOption().getSourceType(), equalToType(File.class));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testSourceTypeInteger() {
 		testee = new CollectionType(Set.class, mockExtractedOption(Integer.class), mockExtractedArguments());
 		
-		assertThat(testee.getOption().getSourceType(), equalTo((Class)Integer.class));
+		assertThat(testee.getOption().getSourceType(), equalToType(Integer.class));
 	}
 	
 	@Test(expected=JParException.class)

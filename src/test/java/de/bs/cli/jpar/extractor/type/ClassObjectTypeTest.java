@@ -7,6 +7,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.StringContains.containsString;
 
+import static de.bs.hamcrest.ClassMatchers.equalToType;
+
 import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,8 +33,7 @@ public class ClassObjectTypeTest {
 	
 	// use list because of the existing subclasses
 	private static final Class<?> TARGET_TYPE = List.class;
-	@SuppressWarnings("rawtypes")
-	private static final Class SOURCE_TYPE = Class.class;
+	private static final Class<?> SOURCE_TYPE = Class.class;
 	
 	private ExtractedOption option;
 	private ExtractedArguments arguments;
@@ -49,12 +51,12 @@ public class ClassObjectTypeTest {
 		{VALID_LINKED_LIST.getClass().getName()}
 	};
 	
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ExtractedOption mockExtractedOption() {
 		option = mock(ExtractedOption.class);
 		when(option.getOptionName()).thenReturn(EXTRACTED_ARGUMENT_ARG_NAME);
 		when(option.getManualDescription()).thenReturn("some description for ClassObjectType");
-		when(option.getSourceType()).thenReturn(SOURCE_TYPE);
+		when(option.getSourceType()).thenReturn((Class)SOURCE_TYPE);
 		return option;
 	}
 	
@@ -68,6 +70,11 @@ public class ClassObjectTypeTest {
 	@Before
 	public void setupTest() {
 		testee = new ClassObjectType(TARGET_TYPE, mockExtractedOption(), null);
+	}
+	
+	@After
+	public void teardownTest() {
+		testee = null;
 	}
 	
 	// super ctor part
@@ -104,20 +111,18 @@ public class ClassObjectTypeTest {
 		assertThat(returned, equalTo(option));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetTargetType() {
-		Class returned = (Class)testee.getTargetType();
+		Class<?> returned = testee.getTargetType();
 		
-		assertThat(returned, equalTo((Class)TARGET_TYPE));
+		assertThat(returned, equalToType(TARGET_TYPE));
 	}
 	
-	@SuppressWarnings({ "rawtypes" })
 	@Test
 	public void testGetSourceType() {
-		Class returned = (Class)testee.getOption().getSourceType();
+		Class<?> returned = testee.getOption().getSourceType();
 		
-		assertThat(returned, equalTo(SOURCE_TYPE));
+		assertThat(returned, equalToType(SOURCE_TYPE));
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

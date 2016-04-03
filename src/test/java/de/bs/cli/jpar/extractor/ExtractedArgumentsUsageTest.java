@@ -5,6 +5,9 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 
+import static de.bs.hamcrest.ArrayMatchers.arrayLength;
+import static de.bs.hamcrest.ArrayMatchers.arrayElementAt;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -85,8 +88,8 @@ public class ExtractedArgumentsUsageTest {
 	public void testGetValues() {
 		String[][] result = testee.getValues();
 		
-		assertThat(result.length, equalTo(1));
-		assertThat(result[0].length, greaterThan(0));
+		assertThat(result, arrayLength(equalTo(1)));
+		assertThat(result, arrayElementAt(0, arrayLength(greaterThan(0)))); // TODO matcher
 	}
 	
 	@Test
@@ -186,12 +189,4 @@ public class ExtractedArgumentsUsageTest {
 		
 		assertThat(result, equalTo(false));
 	}
-	// mock:
-	// - Arguments everything set
-	// - Option (emtpy should be enough()
-	// tests for:
-	// - getDelimiter() : String
-	// - getValues() : String[][]
-	// - validValue() : boolean
-	// - validValues() : boolean
 }

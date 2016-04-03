@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.hasItems;
+import static de.bs.hamcrest.ClassMatchers.fullQualifiedName;
 
 import static de.bs.cli.jpar.config.Defaults.*;
 import static de.bs.cli.jpar.extractor.ExtractedOption.asOptionName;
@@ -96,7 +97,7 @@ public class JParProcessMethodsExampleTest {
 		assertThat(test.isTmpBoolValue(), equalTo(true));
 		
 		assertThat(test.getTmpObjectInstance(), notNullValue());
-		assertThat(test.getTmpObjectInstance().getClass().getName(), equalTo(classValue));
+		assertThat(test.getTmpObjectInstance().getClass(), fullQualifiedName(equalTo(classValue)));
 		
 		assertThat(test.getTmpStringValue(), equalTo(stringValue));
 		

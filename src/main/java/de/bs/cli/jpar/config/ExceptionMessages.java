@@ -2,6 +2,7 @@ package de.bs.cli.jpar.config;
 
 import de.bs.cli.jpar.Arguments;
 import de.bs.cli.jpar.CliProgram;
+import de.bs.cli.jpar.JPar;
 import de.bs.cli.jpar.Option;
 import de.bs.cli.jpar.process.Parameters;
 
@@ -11,13 +12,13 @@ public interface ExceptionMessages {
 	String EXC_TYPE_MISSING_DELEMITER = "The property delimiter() from the annotation '@" + Arguments.class + "' have to be set for argument '%s', actual it is '%s'.";
 	String EXC_TYPE_MISSING_SOURCE_TYPE = "The property sourceType() from the annotation '@" + Option.class + "' have to be set for argument '%s', actual it is '%s'.";
 	String EXC_TYPE_INVALID_VALUE = "The values '%s' is not valid for '%s'.";
-	String EXC_TYPE_NOT_VALIDATEABLE = "Argument '%s' cannot have a value list (possible values are already '+' or '-').";
+	String EXC_TYPE_NOT_VALIDATEABLE = "Argument '%s' cannot have a value list (possible values are already only '+' or '-').";
 	String EXC_TYPE_WRONG_VALUE = "For boolean argument '%s', only '+' and '-' are valid values (given was '%s').";
 	String EXC_TYPE_VALUE_NOT_VALID = "The value '%s' is not valid for argument '%s'.";
 	String EXC_TYPE_OBJECT_NOT_INSTANCE = "The class '%s' is not a subclass of '%s'.";
 	String EXC_TYPE_OBJECT_NOT_INSTANTIABLE = "The class '%s' could not be instanced for argument '%s'.";
 	String EXC_TYPE_NOT_SUPPORTED = "The type '%s' is not supported."; // will not
-	String EXC_TYPE_UNSUPPORTED = "The type '%s' is not supported yet."; // perhaps some day. No duplicate to EXC_TYPE_NOT_SUPPORTED
+	String EXC_TYPE_UNSUPPORTED_YET = "The type '%s' is not supported yet."; // perhaps some day. No duplicate to EXC_TYPE_NOT_SUPPORTED
 	String EXC_TYPE_MISSING_VALUES = "The argument '%s' needs also a element with the '@" + Arguments.class + "' annotation, to specify some behaviours (required is property delimiter()).";
 	String EXC_TYPE_UNKNOWN_COLLECTION_TYPE = "The type '%s' is unkown or not implemented yet.";
 	String EXC_TYPE_NEEDED_CONSTRUCTOR = "The type '%s' has no constructor with <init>(String).";
@@ -29,6 +30,7 @@ public interface ExceptionMessages {
 	String EXC_TYPE_ARGUMENTS_NOT_ALLOWED = "For Option '%s' is no '" + Arguments.class + "' annotation allowed.";
 	String EXC_TYPE_TARGET_TYPE_IS_NULL = "The target type is null for option '%s'.";
 	String EXC_TYPE_MISSING_OPTION_ANNOTATION = "Missing '" + Option.class + "' annotation, with given target type '%s'.";
+	String EXC_TYPE_MISSING_CLASS = "Null or a empty String are no valid class for option '%s'.";
 	
 	String EXC_EXTRACTOR_DOUBLE_OPTION = "There is already a argument with the name '-%s:'.";
 	String EXC_EXTRACTOR_SEVERAL_ARGUMENT_PROGRAM = "The class '%s' contains serveral '@" + CliProgram.class + "' Annotations, but only one is allowed.";
@@ -59,4 +61,11 @@ public interface ExceptionMessages {
 	String EXC_PROCESS_MISSING_REQUIRED_ARGUMENTS = "Missing following required arguments: '%s'.";
 	String EXC_PROCESS_NO_ARGUMENT_ALLOWED = "For option '%s' are no arguments allowed.";
 	String EXC_PROCESS_MISSING_ARGS = "The value null is no legal parameter for '" + Parameters.class + "' class constructor.";
+	
+	String EXC_DEFAULTS_INVALID_LIST_DELIMITER = "The default list delimiter cannot be null or a empty String";
+	String EXC_DEFAULTS_INVALID_OPTION_PREFIX = "The default option prefix cannot be null or a empty String";
+	String EXC_DEFAULTS_INVALID_OPTION_DELIMITER = "The default option delimiter cannot be null or a empty String";
+	
+	String EXC_MAIN_NO_PROGRAM_OBJECT = "The method '" + JPar.class + ".process(Object program, String[] args)' is the parameter program null, but must be an object.";
+	String EXC_MAIN_NO_ARGS_ARRAY = "The method '" + JPar.class + ".process(Object program, String[] args)' is the parameter args null, but must be an array.";
 }
