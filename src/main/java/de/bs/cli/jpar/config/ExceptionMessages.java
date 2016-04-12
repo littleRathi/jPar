@@ -21,8 +21,8 @@ public interface ExceptionMessages {
 	String EXC_TYPE_UNSUPPORTED_YET = "The type '%s' is not supported yet."; // perhaps some day. No duplicate to EXC_TYPE_NOT_SUPPORTED
 	String EXC_TYPE_MISSING_VALUES = "The argument '%s' needs also a element with the '@" + Arguments.class + "' annotation, to specify some behaviours (required is property delimiter()).";
 	String EXC_TYPE_UNKNOWN_COLLECTION_TYPE = "The type '%s' is unkown or not implemented yet.";
-	String EXC_TYPE_NEEDED_CONSTRUCTOR = "The type '%s' has no constructor with <init>(String).";
-	String EXC_TYPE_COLLECTION_UNSUPPORTED_GEN_TYPE = "The set type '%s' for property sourceType() in '" + Option.class + "' with option name '%s' is not support (need a static valueOf(String) method or constructor with 1 parameter from type String.";
+	String EXC_TYPE_NEEDED_CONSTRUCTOR = "The type '%s' has no constructor with <init>(String) or a valueOf(String) method.";
+	String EXC_TYPE_NO_STRING_INSTANZIATE_METHOD = "The type '%s' has not instanziation method/constructor with only a String parameter (valueOf(String) or a constructor(String).";
 	String EXC_TYPE_COLLECTION_NOT_INSTANCIABLE = "From the collection type '%s' for parameter '%s' could not be instanziated.";
 	String EXC_TYPE_GENERIC_TYPE_COLLECTION = "The property sourceType() from '" + Option.class + "' for the parameter '%s' is a collection type (class: is '%s')";
 	String EXC_TYPE_SOURCE_MUST_BE_CLASS = "The property sourceType() from annotation '" + Option.class + "' type must be set to '" + Class.class + "' for parameter '%s' but is '%s'.";

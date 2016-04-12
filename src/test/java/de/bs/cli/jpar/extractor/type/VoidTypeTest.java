@@ -22,6 +22,7 @@ import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.process.Parameters;
+import de.bs.cli.jpar.util.MockClassAnswer;
 
 public class VoidTypeTest {
 	private VoidType testee;
@@ -64,10 +65,9 @@ public class VoidTypeTest {
 	}
 
 	// CollectionType ctor part
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test(expected=JParException.class)
 	public void testCtorWrongSourceType() {
-		when(option.getSourceType()).thenReturn((Class)String.class);
+		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		
 		testee = new VoidType(option, null);
 		
@@ -96,11 +96,10 @@ public class VoidTypeTest {
 		assertThat(returned, equalToType(Void.class));
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test(expected=JParException.class)
 	public void testWithSourceType() {
 		option = mockExtractedOption();
-		when(option.getSourceType()).thenReturn((Class)String.class);
+		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		
 		testee = new VoidType(option, null);
 		

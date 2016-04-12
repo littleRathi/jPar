@@ -1,5 +1,9 @@
 package de.bs.cli.jpar.extractor.type;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 
 import de.bs.cli.jpar.JParException;
@@ -58,11 +62,82 @@ public abstract class Type implements ExceptionMessages {
 		}
 		throw new JParException(EXC_TYPE_UNSUPPORTED_YET, type);
 	}
+	
 	public abstract Object processArgs(final String option, final String argument, final Parameters args);
 
 	public abstract String getShortDescription();
 	public abstract void getManualDescription(final StringBuilder descriptionBuilder);
 
+	
+	// TODO move to Type.class
+	protected void checkClassForStringInstanziateMethods(final Class<?> type) {
+		Method valueOf = null;
+		
+		try {
+			valueOf = type.getMethod("valueOf", String.class);
+		} catch (NoSuchMethodException e) {
+		} catch (SecurityException e) {
+		}
+		
+		if (valueOf == null) {
+			Constructor<?> con = null;
+			try {
+				con = type.getConstructor(String.class);
+			} catch (NoSuchMethodException e) {
+			} catch (SecurityException e) {
+			}
+			
+			if (con == null) {
+				throw new JParException(EXC_TYPE_NO_STRING_INSTANZIATE_METHOD, type);
+			}
+		}
+	}
+	
+	// TODO move to Type.class
+	protected static Object castTo(final Class<?> newType, final String value) {
+		if (String.class.equals(newType)) {
+			return value;
+		}
+
+		Object result = castWithValueOf(newType, value);
+		
+		if (result != null) {
+			result = castWithConstructor(newType, value);
+		}
+		
+		if (result == null) {
+			throw new JParException(EXC_TYPE_NEEDED_CONSTRUCTOR, newType);
+		}
+		
+		return result;
+	}
+	
+	private static Object castWithConstructor(final Class<?> newType, final String value) {
+		try {
+			Constructor<?> con = newType.getConstructor(String.class);
+			return con.newInstance(value);
+		} catch (NoSuchMethodException e) {
+		} catch (Exception e) {
+		}
+		return null;
+	}
+	
+	private static Object castWithValueOf(final Class<?> newType, final String value) {
+		try {
+			Method valueOf = newType.getMethod("valueOf", String.class);
+			
+			if (value != null && Modifier.isStatic(valueOf.getModifiers())) {
+				return valueOf.invoke(null, value);
+			}
+		} catch (NoSuchMethodException e) {
+		} catch (SecurityException e) {
+		} catch (IllegalAccessException e) {
+		} catch (IllegalArgumentException e) {
+		} catch (InvocationTargetException e) {
+		}
+		return null;
+	}
+	
 	protected void createValuesDescription(final StringBuilder result, final boolean multiple) {
 		if (getArguments() != null) {
 			String[][] values = getArguments().getValues();

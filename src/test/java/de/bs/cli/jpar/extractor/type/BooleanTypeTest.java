@@ -24,6 +24,7 @@ import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.process.Parameters;
+import de.bs.cli.jpar.util.MockClassAnswer;
 
 public class BooleanTypeTest {
 	private BooleanType testee;
@@ -69,10 +70,9 @@ public class BooleanTypeTest {
 		fail();
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test(expected=JParException.class)
 	public void testCtorSourceType() {
-		when(option.getSourceType()).thenReturn((Class)String.class);
+		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		
 		testee = new BooleanType(option, null);
 		
@@ -94,11 +94,10 @@ public class BooleanTypeTest {
 		assertThat(returned, equalToType(Boolean.class));
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test(expected=JParException.class)
 	public void testWithSourceType() {
 		option = mockExtractedOption();
-		when(option.getSourceType()).thenReturn((Class)String.class);
+		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		
 		testee = new BooleanType(option, null);
 		

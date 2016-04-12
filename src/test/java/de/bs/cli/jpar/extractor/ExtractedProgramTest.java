@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import de.bs.cli.jpar.CliProgram;
 import de.bs.cli.jpar.JParException;
+import de.bs.cli.jpar.util.MockClassAnswer;
 
 
 public class ExtractedProgramTest {
@@ -34,11 +35,10 @@ public class ExtractedProgramTest {
 	
 	private static final String PROG_COPYRIGHT = "This program has some kind of copyright";
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Before
 	public void setupTest() {
 		CliProgram programAnnotation = mock(CliProgram.class);
-		when(programAnnotation.annotationType()).thenReturn((Class)CliProgram.class);
+		when(programAnnotation.annotationType()).then(new MockClassAnswer(CliProgram.class));
 		when(programAnnotation.name()).thenReturn(PROG_NAME);
 		when(programAnnotation.description()).thenReturn(PROG_DESC);
 		when(programAnnotation.authors()).thenReturn(PROG_AUTHORS);

@@ -2,13 +2,12 @@ package de.bs.cli.jpar.extractor.type;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.containsString;
 
 import static de.bs.hamcrest.ClassMatchers.equalToType;
 import static de.bs.hamcrest.ClassMatchers.extendsType;
+import static de.bs.hamcrest.ClassMatchers.collection;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -28,6 +27,7 @@ import de.bs.cli.jpar.config.Defaults;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.process.Parameters;
+import de.bs.cli.jpar.util.MockClassAnswer;
 
 public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 	private CollectionType testee;
@@ -77,12 +77,11 @@ public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 		return arguments;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ExtractedOption mockExtractedOption() {
 		option = mock(ExtractedOption.class);
 		when(option.getOptionName()).thenReturn(EXTRACTED_ARGUMENT_ARG_NAME);
 		when(option.getManualDescription()).thenReturn("Some meaningless text");
-		when(option.getSourceType()).thenReturn((Class)SOURCE_TYPE);
+		when(option.getSourceType()).then(new MockClassAnswer(SOURCE_TYPE));
 		
 		return option;
 	}
@@ -109,12 +108,11 @@ public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 	}
 	
 	// CollectionType ctor part
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void testCtorSuccess() {
 		option = mock(ExtractedOption.class);
 		when(option.getManualDescription()).thenReturn("Something meaningless");
-		when(option.getSourceType()).thenReturn((Class)SOURCE_TYPE);
+		when(option.getSourceType()).then(new MockClassAnswer(SOURCE_TYPE));
 		
 		testee = new CollectionType(getCollectionType(), option, mockExtractedArgumentsFull());
 		
@@ -194,11 +192,10 @@ public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 		assertThat(returned, equalToType(SOURCE_TYPE));
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes", })
 	@Test(expected=JParException.class)
 	public void testWithoutSourceType() {
 		option = mockExtractedOption();
-		when(option.getSourceType()).thenReturn((Class)Void.class);
+		when(option.getSourceType()).then(new MockClassAnswer(Void.class));
 		
 		testee = new CollectionType(getCollectionType(), option, null);
 		
@@ -235,9 +232,8 @@ public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 		Parameters args = new Parameters(new String[]{EXTRACTED_ARGUMENT_ARG_NAME + ARGUMENT_2A});
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, ARGUMENT_2A, args);
 
-		assertThat(result, instanceOf(getCollectionType()));
-		assertThat(((Collection<?>)result), hasSize(2)); // TODO matcher hamcrest: handling generics
-		assertThat(((Collection<String>)result), hasItems(ALLOWED_VALUE_A0, ALLOWED_VALUE_A2));
+		assertThat(result, collection(Collection.class, String.class)
+				.and(hasItems(ALLOWED_VALUE_A0, ALLOWED_VALUE_A2)));
 	}
 	
 	@Test(expected=JParException.class)
@@ -258,9 +254,7 @@ public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 		Parameters args = new Parameters(new String[]{EXTRACTED_ARGUMENT_ARG_NAME + ARGUMENT_B});
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, ARGUMENT_B, args);
 		
-		assertThat(result, instanceOf(getCollectionType()));
-		assertThat(((Collection<?>)result), hasSize(1));
-		assertThat(((Collection<String>)result), hasItems(ALLOWED_VALUE_B0));
+		assertThat(result, collection(Collection.class, String.class).and(hasItems(ALLOWED_VALUE_B0)));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -272,9 +266,7 @@ public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 		Parameters args = new Parameters(new String[]{EXTRACTED_ARGUMENT_ARG_NAME + ARGUMENT_2A});
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, ARGUMENT_2A, args);
 		
-		assertThat(result, instanceOf(getCollectionType()));
-		assertThat(((Collection<?>)result), hasSize(2));
-		assertThat(((Collection<String>)result), hasItems(ALLOWED_VALUE_A0, ALLOWED_VALUE_A2));
+		assertThat(result, collection(Collection.class, String.class).and(hasItems(ALLOWED_VALUE_A0, ALLOWED_VALUE_A2)));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -286,9 +278,7 @@ public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 		Parameters args = new Parameters(new String[]{EXTRACTED_ARGUMENT_ARG_NAME + ARGUMENT_AB});
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, ARGUMENT_AB, args);
 		
-		assertThat(result, instanceOf(getCollectionType()));
-		assertThat(((Collection<?>)result), hasSize(2));
-		assertThat(((Collection<String>)result), hasItems(ALLOWED_VALUE_A0, ALLOWED_VALUE_B0));
+		assertThat(result, collection(Collection.class, String.class).and(hasItems(ALLOWED_VALUE_A0, ALLOWED_VALUE_B0)));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -300,8 +290,6 @@ public abstract class CollectionTypeTestBase<T extends Collection<?>> {
 		Parameters args = new Parameters(new String[]{EXTRACTED_ARGUMENT_ARG_NAME + ARGUMENT_B});
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, ALLOWED_VALUE_B0, args);
 		
-		assertThat(result, instanceOf(getCollectionType()));
-		assertThat(((Collection<?>)result), hasSize(1));
-		assertThat(((Collection<String>)result), hasItems(ALLOWED_VALUE_B0));
+		assertThat(result, collection(Collection.class, String.class).and(hasItems(ALLOWED_VALUE_B0)));
 	}
 }

@@ -27,6 +27,7 @@ import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.process.Parameters;
+import de.bs.cli.jpar.util.MockClassAnswer;
 
 public class ClassObjectTypeTest {
 	private ClassObjectType testee;
@@ -51,12 +52,11 @@ public class ClassObjectTypeTest {
 		{VALID_LINKED_LIST.getClass().getName()}
 	};
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ExtractedOption mockExtractedOption() {
 		option = mock(ExtractedOption.class);
 		when(option.getOptionName()).thenReturn(EXTRACTED_ARGUMENT_ARG_NAME);
 		when(option.getManualDescription()).thenReturn("some description for ClassObjectType");
-		when(option.getSourceType()).thenReturn((Class)SOURCE_TYPE);
+		when(option.getSourceType()).then(new MockClassAnswer(SOURCE_TYPE));
 		return option;
 	}
 	
@@ -93,10 +93,9 @@ public class ClassObjectTypeTest {
 	}
 	
 	// ctor part
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test(expected=JParException.class)
 	public void testCtorWrongSourceType() {
-		when(option.getSourceType()).thenReturn((Class)String.class);
+		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		
 		testee = new ClassObjectType(TARGET_TYPE, option, null);
 		
@@ -125,11 +124,10 @@ public class ClassObjectTypeTest {
 		assertThat(returned, equalToType(SOURCE_TYPE));
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test(expected=JParException.class)
 	public void testGetSourceTypeWrong() {
 		option = mockExtractedOption();
-		when(option.getSourceType()).thenReturn((Class) String.class);
+		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		testee = new ClassObjectType(TARGET_TYPE, option, null);
 		
 		testee.getOption().getSourceType();

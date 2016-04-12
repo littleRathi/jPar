@@ -15,6 +15,7 @@ import org.junit.Test;
 import de.bs.cli.jpar.Arguments;
 import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.Option;
+import de.bs.cli.jpar.util.MockClassAnswer;
 
 public class ExtractedArgumentsMethodTest {
 	private Method method;
@@ -37,11 +38,10 @@ public class ExtractedArgumentsMethodTest {
 		return method.getAnnotation(Arguments.class);
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void createOption() {
 		option = mock(Option.class);
-		when(option.annotationType()).thenReturn((Class)Option.class);
-		when(option.sourceType()).thenReturn((Class)Void.class);
+		when(option.annotationType()).then(new MockClassAnswer(Option.class));
+		when(option.sourceType()).then(new MockClassAnswer(Void.class));
 		when(option.name()).thenReturn(NAME);
 		when(option.description()).thenReturn("Some meaningless text...");
 	}

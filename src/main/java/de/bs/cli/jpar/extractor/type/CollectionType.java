@@ -1,9 +1,5 @@
 package de.bs.cli.jpar.extractor.type;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -63,76 +59,11 @@ public class CollectionType extends Type {
 	}
 	
 	private void checkGenericType(final Class<?> type) {
-		Method valueOf = null;
-		
 		if (Collection.class.isAssignableFrom(type)) {
 			throw new JParException(EXC_TYPE_GENERIC_TYPE_COLLECTION, getOption().getOptionName(), type);
 		}
 		
-		try {
-			valueOf = type.getMethod("valueOf", String.class);
-		} catch (NoSuchMethodException e) {
-		} catch (SecurityException e) {
-		}
-		
-		if (valueOf == null) {
-			Constructor<?> con = null;
-			try {
-				con = type.getConstructor(String.class);
-			} catch (NoSuchMethodException e) {
-			} catch (SecurityException e) {
-			}
-			
-			if (con == null) {
-				throw new JParException(EXC_TYPE_COLLECTION_UNSUPPORTED_GEN_TYPE, type, getOption().getOptionName());
-			}
-		}
-	}
-	
-	// TODO move to Type?
-	// Optimization when something happens like new Integer("abc");
-	private static Object castTo(final Class<?> newType, final String value) {
-		if (String.class.equals(newType)) {
-			return value;
-		}
-
-		Object result = castWithValueOf(newType, value);
-		
-		if (result != null) {
-			result = castWithConstructor(newType, value);
-		}
-		
-		if (result == null) {
-			throw new JParException(EXC_TYPE_NEEDED_CONSTRUCTOR, newType);
-		}
-		
-		return result;
-	}
-	
-	private static Object castWithConstructor(final Class<?> newType, final String value) {
-		try {
-			Constructor<?> con = newType.getConstructor(String.class);
-			return con.newInstance(value);
-		} catch (NoSuchMethodException e) {
-		} catch (Exception e) {
-		}
-		return null;
-	}
-	
-	private static Object castWithValueOf(final Class<?> newType, final String value) {
-		try {
-			Method valueOf = newType.getMethod("valueOf", String.class);
-			
-			if (value != null && Modifier.isStatic(valueOf.getModifiers())) {
-				return valueOf.invoke(null, value);
-			}
-		} catch (NoSuchMethodException e) {
-		} catch (SecurityException e) {
-		} catch (IllegalAccessException e) {
-		} catch (IllegalArgumentException e) {
-		} catch (InvocationTargetException e) {
-		}
-		return null;
+		checkClassForStringInstanziateMethods(type);
 	}
 	
 	@SuppressWarnings("unchecked")

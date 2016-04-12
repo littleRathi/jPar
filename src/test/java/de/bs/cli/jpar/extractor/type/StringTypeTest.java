@@ -23,6 +23,7 @@ import de.bs.cli.jpar.JParException;
 import de.bs.cli.jpar.extractor.ExtractedOption;
 import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.process.Parameters;
+import de.bs.cli.jpar.util.MockClassAnswer;
 
 public class StringTypeTest {
 	private StringType testee;
@@ -76,10 +77,9 @@ public class StringTypeTest {
 	}
 
 	// ctor part
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test(expected=JParException.class)
 	public void testCtorIllegalSourceType() {
-		when(option.getSourceType()).thenReturn((Class)String.class);
+		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		
 		testee = new StringType(option, null);
 		
@@ -101,19 +101,17 @@ public class StringTypeTest {
 		assertThat(returned, equalToType(TARGET_TYPE));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void testGetSourceType() {
-		Class returned = (Class)testee.getOption().getSourceType();
+		Class<?> returned = testee.getOption().getSourceType();
 		
-		assertThat(returned, equalTo(null));
+		assertThat(returned, equalToType(null));
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test(expected=JParException.class)
-	public void TestGetSourceTypeWrong() {
-		option = mockExtractedOption();
-		when(option.getSourceType()).thenReturn((Class)String.class);
+	public void TestGetSourceTypeIsString() {
+//		option = mockExtractedOption(); TODO not necessary
+		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		testee = new StringType(option, null);
 		
 		testee.getOption().getSourceType();
