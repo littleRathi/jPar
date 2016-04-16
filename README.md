@@ -26,7 +26,7 @@ which is thrown inside of the library
 ## Usage
 
 ## Todo
-
+- assert clean up
 
 ### next version
 - Tests (only ExpressionLanguage is missing, but will be changed, but how is unknown)
@@ -35,7 +35,6 @@ which is thrown inside of the library
   	- Parameters for commands, "explain" replacement from "latex" commands to text
   		- needs some description objects
   	- default behavior for not found commands -> empty replacement? (configurable)
-- ObjectType; create simple instances from targetType, with String as a parameter: example would be new File(arg)
 - extends de.bs.cli.jpar.process.Parameters with methods:
  - public interface (for lib user)
   * isNextOption(): boolean

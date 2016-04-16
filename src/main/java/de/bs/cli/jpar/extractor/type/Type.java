@@ -51,14 +51,17 @@ public abstract class Type implements ExceptionMessages {
 		if (type == Boolean.class || type == boolean.class) {
 			return new BooleanType(option, arguments);
 		}
-		if (type == String.class) {
-			return new StringType(option, arguments);
-		}
+//		if (type == String.class) {
+//			return new StringType(option, arguments);
+//		}
 		if (Collection.class.isAssignableFrom(type)) {
 			return new CollectionType(type, option, arguments);
 		}
 		if (option.getOption().sourceType() == Class.class) {
 			return new ClassObjectType(type, option, arguments);	
+		}
+		if (checkClassForStringInstanziateMethods(type)) {
+			return new StringObjectType(type, option, arguments);
 		}
 		throw new JParException(EXC_TYPE_UNSUPPORTED_YET, type);
 	}
@@ -68,32 +71,35 @@ public abstract class Type implements ExceptionMessages {
 	public abstract String getShortDescription();
 	public abstract void getManualDescription(final StringBuilder descriptionBuilder);
 
+
+	protected static void checkClassForStringInstanziateMethodsOrThrow(final Class<?> type) {
+		if (!checkClassForStringInstanziateMethods(type)) {
+			throw new JParException(EXC_TYPE_NO_STRING_INSTANZIATE_METHOD, type);
+		}
+	}
 	
-	// TODO move to Type.class
-	protected void checkClassForStringInstanziateMethods(final Class<?> type) {
+	protected static boolean checkClassForStringInstanziateMethods(final Class<?> type) {
 		Method valueOf = null;
 		
 		try {
 			valueOf = type.getMethod("valueOf", String.class);
+			return true;
 		} catch (NoSuchMethodException e) {
 		} catch (SecurityException e) {
 		}
 		
 		if (valueOf == null) {
-			Constructor<?> con = null;
+//			Constructor<?> con = null;
 			try {
-				con = type.getConstructor(String.class);
+				type.getConstructor(String.class);
+				return true;
 			} catch (NoSuchMethodException e) {
 			} catch (SecurityException e) {
 			}
-			
-			if (con == null) {
-				throw new JParException(EXC_TYPE_NO_STRING_INSTANZIATE_METHOD, type);
-			}
 		}
+		return false;
 	}
 	
-	// TODO move to Type.class
 	protected static Object castTo(final Class<?> newType, final String value) {
 		if (String.class.equals(newType)) {
 			return value;
@@ -101,7 +107,7 @@ public abstract class Type implements ExceptionMessages {
 
 		Object result = castWithValueOf(newType, value);
 		
-		if (result != null) {
+		if (result == null) {
 			result = castWithConstructor(newType, value);
 		}
 		

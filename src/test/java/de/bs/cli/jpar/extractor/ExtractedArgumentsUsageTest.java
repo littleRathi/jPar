@@ -39,8 +39,8 @@ public class ExtractedArgumentsUsageTest {
 	private static final String VALUE_VAL3 = "value4";
 	private static final String[] VALUES = new String[]{VALUE_VAL0, VALUE_VAL1, VALUE_VAL2, VALUE_VAL3};
 	
-	@SuppressWarnings("unused")
 	private static String[][] mockField;
+	public static String[][] getMockFieldValue() { return mockField; }
 	
 	private Field getMockField() throws NoSuchFieldException, SecurityException {
 		return this.getClass().getDeclaredField("mockField");
@@ -62,7 +62,6 @@ public class ExtractedArgumentsUsageTest {
 	public Arguments mockArguments() {
 		arguments = mock(Arguments.class);
 		when(arguments.delimiter()).thenReturn(DELIMITER);
-//		when(arguments.name()).thenReturn(NAME);
 		when(arguments.values()).thenReturn(VALUES);
 		return arguments;
 	}
@@ -89,7 +88,7 @@ public class ExtractedArgumentsUsageTest {
 		String[][] result = testee.getValues();
 		
 		assertThat(result, arrayLength(equalTo(1)));
-		assertThat(result, arrayElementAt(0, arrayLength(greaterThan(0)))); // TODO matcher
+		assertThat(result, arrayElementAt(0, arrayLength(greaterThan(0))));
 	}
 	
 	@Test

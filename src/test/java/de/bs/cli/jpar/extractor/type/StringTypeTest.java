@@ -105,12 +105,11 @@ public class StringTypeTest {
 	public void testGetSourceType() {
 		Class<?> returned = testee.getOption().getSourceType();
 		
-		assertThat(returned, equalToType(null));
+		assertThat(returned, equalTo(null));
 	}
 	
 	@Test(expected=JParException.class)
 	public void TestGetSourceTypeIsString() {
-//		option = mockExtractedOption(); TODO not necessary
 		when(option.getSourceType()).then(new MockClassAnswer(String.class));
 		testee = new StringType(option, null);
 		

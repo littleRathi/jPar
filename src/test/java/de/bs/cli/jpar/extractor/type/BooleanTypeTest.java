@@ -3,10 +3,11 @@ package de.bs.cli.jpar.extractor.type;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.containsString;
 
 import static de.bs.hamcrest.ClassMatchers.equalToType;
+import static de.bs.hamcrest.ClassMatchers.ofType;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -129,7 +130,7 @@ public class BooleanTypeTest {
 		Parameters parameters = new Parameters(args);
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, TRUE, parameters);
 		
-		assertThat(result, equalTo((Object)Boolean.TRUE));
+		assertThat(result, ofType(equalTo(Boolean.class)).and(equalTo(Boolean.TRUE)));
 	}
 	
 	@Test
@@ -138,7 +139,7 @@ public class BooleanTypeTest {
 		Parameters parameters = new Parameters(args);
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, TRUE_IMPLIZIT, parameters);
 		
-		assertThat(result, equalTo((Object)Boolean.TRUE));
+		assertThat(result, ofType(equalTo(Boolean.class)).and(equalTo(Boolean.TRUE)));
 	}
 	
 	@Test
@@ -147,7 +148,7 @@ public class BooleanTypeTest {
 		Parameters parameters = new Parameters(args);
 		Object result = testee.processArgs(EXTRACTED_ARGUMENT_ARG_NAME, FALSE, parameters);
 		
-		assertThat(result, equalTo((Object)Boolean.FALSE));
+		assertThat(result, ofType(equalTo(Boolean.class)).and(equalTo(Boolean.FALSE)));
 	}
 	
 	@Test(expected=JParException.class)

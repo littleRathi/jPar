@@ -1,7 +1,6 @@
 package de.bs.cli.jpar;
 
-import static org.hamcrest.Matchers.array;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.arrayContaining;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -19,27 +18,24 @@ public class ValuesTest {
 		public String D = "D";
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testCreateSimpleValueListClass() {
 		String[] testee = Values.createSimpleValueList(TEST_VALUES.class, C);
 		
-		assertThat(testee, array(equalTo(TEST_VALUES.A), equalTo(TEST_VALUES.B), equalTo(C)));
+		assertThat(testee, arrayContaining(TEST_VALUES.A, TEST_VALUES.B, C));
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testCreateSimpleValueListError() {
 		String[] testee = Values.createSimpleValueList(ERROR_VALUES.class, C);
 		
-		assertThat(testee, array(equalTo(C)));
+		assertThat(testee, arrayContaining(C));
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testCreateSimpleValueList() {
 		String[] testee = Values.createSimpleValueList(A, B, C);
 		
-		assertThat(testee, array(equalTo(A), equalTo(B), equalTo(C)));
+		assertThat(testee, arrayContaining(A, B, C));
 	}
 }

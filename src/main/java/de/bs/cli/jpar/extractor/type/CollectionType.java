@@ -63,7 +63,7 @@ public class CollectionType extends Type {
 			throw new JParException(EXC_TYPE_GENERIC_TYPE_COLLECTION, getOption().getOptionName(), type);
 		}
 		
-		checkClassForStringInstanziateMethods(type);
+		checkClassForStringInstanziateMethodsOrThrow(type);
 	}
 	
 	@SuppressWarnings("unchecked")
