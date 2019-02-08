@@ -29,7 +29,8 @@ import de.bs.cli.jpar.extractor.ExtractedArguments;
 import de.bs.cli.jpar.process.Parameters;
 import de.bs.cli.jpar.util.MockClassAnswer;
 
-public abstract class CollectionTypeTestBase<T extends Collection<?>> {
+@SuppressWarnings("rawtypes")
+public abstract class CollectionTypeTestBase<T extends Collection> {
 	private CollectionType testee;
 	private static final Class<?> SOURCE_TYPE = String.class;
 	
